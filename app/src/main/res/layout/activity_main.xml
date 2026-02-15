@@ -49,27 +49,7 @@
                     android:padding="8dp"/>
             </LinearLayout>
 
-            <RadioGroup
-                android:id="@+id/rgUnits"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
 
-                <RadioButton
-                    android:id="@+id/rbImperial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fahrenheit" />
-
-                <RadioButton
-                    android:id="@+id/rbMetric"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/celsius"
-                    android:checked="true"
-                    android:layout_marginStart="16dp" />
-            </RadioGroup>
 
             <Button
                 android:id="@+id/btnConsult"

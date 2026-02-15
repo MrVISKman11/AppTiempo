@@ -1,6 +1,8 @@
 package com.example.weatherapp
 
-import android.content.DialogInterface
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,7 +14,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.weatherapp.api.WeatherService
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var tvCurrentConditions: TextView
     private lateinit var btnConsult: Button
     private lateinit var etStationId: EditText
-    private lateinit var rgUnits: RadioGroup
+
     private lateinit var btnAddToFavorites: ImageButton
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
@@ -57,6 +61,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applyTheme()
         setContentView(R.layout.activity_main)
 
         repository = FavoritesRepository(this)
@@ -68,7 +73,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         tvCurrentConditions = findViewById(R.id.tvCurrentConditions)
         btnConsult = findViewById(R.id.btnConsult)
         etStationId = findViewById(R.id.etStationId)
-        rgUnits = findViewById(R.id.rgUnits)
+
         btnAddToFavorites = findViewById(R.id.btnAddToFavorites)
         chartTemperature = findViewById(R.id.chartTemperature)
         chartWind = findViewById(R.id.chartWind)
@@ -131,6 +136,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     
     private fun setupCharts() {
+        val textColor = getThemeTextColor()
+
         // Temperature
         chartTemperature.description.isEnabled = false
         chartTemperature.setTouchEnabled(true)
@@ -139,6 +146,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val xAxisTemp = chartTemperature.xAxis
         xAxisTemp.position = XAxis.XAxisPosition.BOTTOM
         xAxisTemp.setDrawGridLines(false)
+        xAxisTemp.textColor = textColor
+        chartTemperature.axisLeft.textColor = textColor
+        chartTemperature.legend.textColor = textColor
         chartTemperature.axisRight.isEnabled = false
 
         // Wind
@@ -149,6 +159,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val xAxisWind = chartWind.xAxis
         xAxisWind.position = XAxis.XAxisPosition.BOTTOM
         xAxisWind.setDrawGridLines(false)
+        xAxisWind.textColor = textColor
+        chartWind.axisLeft.textColor = textColor
+        chartWind.legend.textColor = textColor
         chartWind.axisRight.isEnabled = false
 
         // Precip
@@ -159,6 +172,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val xAxisPrecip = chartPrecip.xAxis
         xAxisPrecip.position = XAxis.XAxisPosition.BOTTOM
         xAxisPrecip.setDrawGridLines(false)
+        xAxisPrecip.textColor = textColor
+        chartPrecip.axisLeft.textColor = textColor
+        chartPrecip.legend.textColor = textColor
         chartPrecip.axisRight.isEnabled = false
     }
 
@@ -181,6 +197,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_favorites -> {
                 showFavoritesDialog()
+            }
+            R.id.nav_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -233,7 +252,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         chartPrecip.clear()
         
         // Determine units
-        val isMetric = rgUnits.checkedRadioButtonId == R.id.rbMetric
+        val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
+        val isMetric = sharedPref.getBoolean("isMetric", true)
         val unitCode = if (isMetric) "m" else "e"
         
         val retrofit = Retrofit.Builder()
@@ -308,6 +328,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             val history = historyResponse.body()?.observations
                             if (!history.isNullOrEmpty()) {
                                 updateCharts(history, isMetric)
+                                
+                                // Calculate 24h Precip Total
+                                val precipSum = history.sumOf { 
+                                    (if (isMetric) it.metric?.precipTotal else it.imperial?.precipTotal) ?: 0.0 
+                                }
+                                val precipUnit = if (isMetric) "mm" else "in"
+                                // Append to current conditions
+                                withContext(Dispatchers.Main) {
+                                    val currentText = tvCurrentConditions.text.toString()
+                                    // Avoid appending multiple times if called repeatedly (though fetchWeather clears it)
+                                    if (!currentText.contains("24h")) {
+                                        tvCurrentConditions.text = "$currentText\nPrecip (24h): ${String.format(Locale.getDefault(), "%.2f", precipSum)} $precipUnit"
+                                    }
+                                }
                             }
                         }
                     } catch (e: Exception) {
@@ -351,11 +385,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         
         withContext(Dispatchers.Main) {
+            val textColor = getThemeTextColor()
+
             // Temp Chart
             val tempDataSet = LineDataSet(tempEntries, "Temperatura (${if (isMetric) "°C" else "°F"})")
             tempDataSet.color = Color.RED
             tempDataSet.setDrawCircles(false)
             tempDataSet.lineWidth = 2f
+            tempDataSet.valueTextColor = textColor
             chartTemperature.data = LineData(tempDataSet)
             chartTemperature.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartTemperature.invalidate()
@@ -366,6 +403,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             windDataSet.color = Color.GREEN
             windDataSet.setDrawCircles(false)
             windDataSet.lineWidth = 2f
+            windDataSet.valueTextColor = textColor
             chartWind.data = LineData(windDataSet)
             chartWind.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartWind.invalidate()
@@ -374,10 +412,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             // Precip Chart
             val precipDataSet = BarDataSet(precipEntries, "Precipitación (${if (isMetric) "mm" else "in"})")
             precipDataSet.color = Color.BLUE
+            precipDataSet.valueTextColor = textColor
             chartPrecip.data = BarData(precipDataSet)
             chartPrecip.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartPrecip.invalidate()
             chartPrecip.animateY(1000)
+        }
+    }
+
+    private fun getThemeTextColor(): Int {
+        val currentNightMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        return if (currentNightMode == android.content.res.Configuration.UI_MODE_NIGHT_YES) {
+            Color.WHITE
+        } else {
+            Color.BLACK
         }
     }
 
@@ -386,5 +434,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val directions = arrayOf("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO")
         val index = ((degrees / 22.5) + 0.5).toInt() % 16
         return directions[index]
+    }
+    private fun applyTheme() {
+        val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
+        val themeMode = sharedPref.getInt("themeMode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        AppCompatDelegate.setDefaultNightMode(themeMode)
     }
 }

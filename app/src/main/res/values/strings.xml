@@ -19,4 +19,10 @@
     <string name="remove">Eliminar</string>
     <string name="station_not_found">Estación no encontrada.</string>
     <string name="no_favorites">No hay favoritos guardados.</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="pref_category_units">Unidades</string>
+    <string name="pref_category_theme">Tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_system">Sistema</string>
 </resources>
