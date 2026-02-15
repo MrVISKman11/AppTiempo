@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">App del Tiempo</string>
+    <string name="loading">Cargando datos...</string>
+    <string name="error_prefix">Error: </string>
+    <string name="location_label">--</string>
+    <string name="consultar">Consultar</string>
+    <string name="enter_pws_id">Introduce ID de Estación PWS:</string>
+    <string name="hint_pws_id">ej. IPOZUE59</string>
+    <string name="fahrenheit">Fahrenheit (°F)</string>
+    <string name="celsius">Celsius (°C)</string>
+    <string name="current_conditions">Condiciones Actuales: --</string>
+    <string name="forecast_label">Pronóstico 5 Días:</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_favorites">Favoritos</string>
+    <string name="add_favorite">Añadir a Favoritos</string>
+    <string name="favorite_name_hint">Nombre (ej. Casa)</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="remove">Eliminar</string>
+    <string name="station_not_found">Estación no encontrada.</string>
+    <string name="no_favorites">No hay favoritos guardados.</string>
+</resources>
