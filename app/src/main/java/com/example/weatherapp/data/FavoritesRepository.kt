@@ -23,16 +23,16 @@ class FavoritesRepository(context: Context) {
         // Remove if exists to update/avoid duplicates by ID
         list.removeAll { it.id == station.id }
         list.add(station)
-        saveList(list)
+        updateFavorites(list)
     }
 
     fun removeFavorite(stationId: String) {
         val list = getFavorites()
         list.removeAll { it.id == stationId }
-        saveList(list)
+        updateFavorites(list)
     }
 
-    private fun saveList(list: List<FavoriteStation>) {
+    fun updateFavorites(list: List<FavoriteStation>) {
         val json = gson.toJson(list)
         prefs.edit().putString(key, json).apply()
     }

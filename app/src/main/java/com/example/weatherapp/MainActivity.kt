@@ -42,6 +42,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
+import com.example.weatherapp.ui.adapter.FavoritesAdapter
+import com.example.weatherapp.viewmodel.WeatherViewModel
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -58,6 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var chartTemperature: LineChart
     private lateinit var chartWind: LineChart
     private lateinit var chartPrecip: BarChart
+    private lateinit var viewModel: WeatherViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +104,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         btnConsult.setOnClickListener {
             val stationId = etStationId.text.toString().trim()
             if (stationId.isNotEmpty()) {
-                fetchWeather(stationId)
+                val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
+                val isMetric = sharedPref.getBoolean("isMetric", true)
+                viewModel.fetchWeather(stationId, isMetric)
             } else {
                 etStationId.error = getString(R.string.hint_pws_id)
             }
@@ -110,6 +119,51 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             } else {
                 Toast.makeText(this, getString(R.string.hint_pws_id), Toast.LENGTH_SHORT).show()
             }
+        }
+        
+        setupViewModel()
+
+        if (savedInstanceState == null) {
+            val favorites = repository.getFavorites()
+            if (favorites.isNotEmpty()) {
+                val defaultStation = favorites[0]
+                etStationId.setText(defaultStation.id)
+                val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
+                val isMetric = sharedPref.getBoolean("isMetric", true)
+                viewModel.fetchWeather(defaultStation.id, isMetric)
+            }
+        }
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
+
+        viewModel.weatherForecast.observe(this) { forecast ->
+            tvWeather.text = forecast
+        }
+
+        viewModel.currentConditions.observe(this) { conditions ->
+            tvCurrentConditions.text = conditions
+        }
+        
+        viewModel.locationName.observe(this) { location ->
+            tvLocation.text = location
+        }
+
+        viewModel.chartHistory.observe(this) { history ->
+            val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
+            val isMetric = sharedPref.getBoolean("isMetric", true)
+            // Use coroutine or simple launch if updateCharts is suspend? 
+            // updateCharts is suspend in original code. We should make it non-suspend or launch it.
+            // Since we are on Main thread here, and updateCharts only does calculation and UI update...
+            // the calculation part (creating entries) might be heavy?
+            // Original code: private suspend fun updateCharts
+            // logic: creates entries (fast), then withContext(Main) update UI.
+            // We can make updateCharts non-suspend or launch a coroutine.
+            // Let's change updateCharts to be non-suspend and use simple logic, or launch lifecycleScope.
+             CoroutineScope(Dispatchers.Default).launch {
+                 updateCharts(history, isMetric)
+             }
         }
     }
     
@@ -174,6 +228,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         xAxisPrecip.setDrawGridLines(false)
         xAxisPrecip.textColor = textColor
         chartPrecip.axisLeft.textColor = textColor
+        chartPrecip.axisLeft.axisMinimum = 0f // Start at 0
+        chartPrecip.axisLeft.setDrawZeroLine(true) // Draw line at 0
         chartPrecip.legend.textColor = textColor
         chartPrecip.axisRight.isEnabled = false
     }
@@ -231,136 +287,64 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             return
         }
 
-        val names: Array<CharSequence> = favorites.map { "${it.name} (${it.id})" }.toTypedArray()
+        val dialogView = layoutInflater.inflate(R.layout.dialog_favorites, null)
+        val rvFavorites = dialogView.findViewById<RecyclerView>(R.id.rvFavorites)
+        val btnClose = dialogView.findViewById<Button>(R.id.btnClose)
 
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.menu_favorites))
-            .setItems(names) { _, which ->
-                val selected = favorites[which]
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        val adapter = FavoritesAdapter(
+            favorites,
+            onStationClick = { selected ->
                 etStationId.setText(selected.id)
-                fetchWeather(selected.id)
+                val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
+                val isMetric = sharedPref.getBoolean("isMetric", true)
+                viewModel.fetchWeather(selected.id, isMetric)
+                dialog.dismiss()
+            },
+            onStartDrag = { viewHolder ->
+                // Drag started via handle, handled by ItemTouchHelper
             }
-            .setNeutralButton(getString(R.string.cancel), null)
-            .show()
-    }
-
-    private fun fetchWeather(stationId: String) {
-        tvWeather.text = getString(R.string.loading)
-        tvCurrentConditions.text = getString(R.string.loading)
-        chartTemperature.clear()
-        chartWind.clear()
-        chartPrecip.clear()
+        )
         
-        // Determine units
-        val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
-        val isMetric = sharedPref.getBoolean("isMetric", true)
-        val unitCode = if (isMetric) "m" else "e"
-        
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.weather.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(WeatherService::class.java)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                // 1. Get PWS Observations
-                val apiKey = "d183be15278740c583be15278740c504"
-                // Localized request
-                val pwsResponse = service.getPwsObservations(stationId = stationId, units = unitCode, apiKey = apiKey)
-                
-                if (pwsResponse.isSuccessful && pwsResponse.body()?.observations?.isNotEmpty() == true) {
-                    val observation = pwsResponse.body()!!.observations!![0]
-                    val lat = observation.lat
-                    val lon = observation.lon
-                    val neighborhood = observation.neighborhood ?: stationId
-                    
-                    // Display Current Conditions
-                    withContext(Dispatchers.Main) {
-                        tvLocation.text = neighborhood
-                        val data = if (isMetric) observation.metric else observation.imperial
-                        val tempUnit = if (isMetric) "°C" else "°F"
-                        val speedUnit = if (isMetric) "km/h" else "mph"
-                        
-                        if (data != null) {
-                            val precipUnit = if (isMetric) "mm/hr" else "in"
-                            val windDir = getWindDirection(observation.winddir)
-                            tvCurrentConditions.text = "Temp: ${data.temp}$tempUnit\n" +
-                                                       "Viento: ${data.windSpeed} $speedUnit $windDir (Ráfaga: ${data.windGust})\n" +
-                                                       "Precip: ${data.precipTotal?.toString() ?: "0"} $precipUnit"
-                        }
-                    }
-
-                    // 2. Get Forecast using Lat/Lon from PWS
-                    val geocode = "$lat,$lon"
-                    // Force Spanish language
-                    val forecastResponse = service.get5DayForecast(geocode = geocode, units = unitCode, language = "es-ES", apiKey = apiKey)
-                    
-                    withContext(Dispatchers.Main) {
-                        if (forecastResponse.isSuccessful) {
-                            val weather = forecastResponse.body()
-                            if (weather != null) {
-                                val sb = StringBuilder()
-                                val days = weather.daysOfWeek
-                                val maxs = weather.maxTemps
-                                val mins = weather.minTemps
-                                val narratives = weather.narratives
-                                
-                                for (i in days.indices) {
-                                    sb.append("${days.getOrNull(i) ?: "Día"}:\n")
-                                    sb.append("Max: ${maxs.getOrNull(i)} | Min: ${mins.getOrNull(i)}\n")
-                                    sb.append("${narratives.getOrNull(i)}\n\n")
-                                }
-                                tvWeather.text = sb.toString()
-                            } else {
-                                tvWeather.text = getString(R.string.station_not_found)
-                            }
-                        } else {
-                            tvWeather.text = "${getString(R.string.error_prefix)} Forecast ${forecastResponse.code()}"
-                        }
-                    }
-                    
-                    // 3. Get History for Graph
-                    try {
-                        val historyResponse = service.getPwsHistory(stationId = stationId, units = unitCode, apiKey = apiKey)
-                        if (historyResponse.isSuccessful) {
-                            val history = historyResponse.body()?.observations
-                            if (!history.isNullOrEmpty()) {
-                                updateCharts(history, isMetric)
-                                
-                                // Calculate 24h Precip Total
-                                val precipSum = history.sumOf { 
-                                    (if (isMetric) it.metric?.precipTotal else it.imperial?.precipTotal) ?: 0.0 
-                                }
-                                val precipUnit = if (isMetric) "mm" else "in"
-                                // Append to current conditions
-                                withContext(Dispatchers.Main) {
-                                    val currentText = tvCurrentConditions.text.toString()
-                                    // Avoid appending multiple times if called repeatedly (though fetchWeather clears it)
-                                    if (!currentText.contains("24h")) {
-                                        tvCurrentConditions.text = "$currentText\nPrecip (24h): ${String.format(Locale.getDefault(), "%.2f", precipSum)} $precipUnit"
-                                    }
-                                }
-                            }
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-
-                } else {
-                    withContext(Dispatchers.Main) {
-                        tvCurrentConditions.text = getString(R.string.station_not_found)
-                        tvWeather.text = "${getString(R.string.error_prefix)} PWS ${pwsResponse.code()}"
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    tvWeather.text = "${getString(R.string.error_prefix)} ${e.message}"
-                }
+        val touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val fromPos = viewHolder.adapterPosition
+                val toPos = target.adapterPosition
+                adapter.onItemMove(fromPos, toPos)
+                return true
             }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                // No swipe to dismiss
+            }
+            
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+                // Save new order when drag is finished
+                repository.updateFavorites(adapter.getItems())
+            }
+        })
+        
+        touchHelper.attachToRecyclerView(rvFavorites)
+
+        rvFavorites.layoutManager = LinearLayoutManager(this)
+        rvFavorites.adapter = adapter
+
+        btnClose.setOnClickListener {
+            dialog.dismiss()
         }
+
+        dialog.show()
     }
+
+
     
     private suspend fun updateCharts(observations: List<com.example.weatherapp.model.PwsHistoryObservation>, isMetric: Boolean) {
         val tempEntries = ArrayList<Entry>()

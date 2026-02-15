@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.weatherapp-mergeDebugResources-29:/values-v23/values-v23.xml",
+            "outputFile": "com.example.weatherapp-mergeDebugResources-31:/values-v23/values-v23.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Miguel\\.gradle\\caches\\transforms-3\\3f164f16cafd5f6f5b441257437618a5\\transformed\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",

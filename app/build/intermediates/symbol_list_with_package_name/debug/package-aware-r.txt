@@ -1418,6 +1418,7 @@ color foreground_material_dark
 color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color icon_color
 color m3_appbar_overlay_color
 color m3_assist_chip_icon_tint_color
 color m3_assist_chip_stroke_color
@@ -3002,6 +3003,7 @@ drawable ic_keyboard_black_24dp
 drawable ic_m3_chip_check
 drawable ic_m3_chip_checked_circle
 drawable ic_m3_chip_close
+drawable ic_menu_reorder
 drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
@@ -3183,6 +3185,7 @@ id bounceBoth
 id bounceEnd
 id bounceStart
 id btnAddToFavorites
+id btnClose
 id btnConsult
 id buttonPanel
 id cache_measures
@@ -3321,8 +3324,10 @@ id indeterminate
 id info
 id invisible
 id inward
+id is_pooling_container_tag
 id italic
 id item_touch_helper_previous_elevation
+id ivDragHandle
 id jumpToEnd
 id jumpToStart
 id labeled
@@ -3397,6 +3402,7 @@ id mtrl_view_tag_bottom_padding
 id multiply
 id nav_favorites
 id nav_home
+id nav_settings
 id nav_view
 id navigation_bar_item_active_indicator_view
 id navigation_bar_item_icon_container
@@ -3448,6 +3454,7 @@ id pathRelative
 id peekHeight
 id percent
 id pin
+id pooling_container_listener_holder_tag
 id position
 id postLayout
 id pressed
@@ -3455,18 +3462,23 @@ id progress_circular
 id progress_horizontal
 id radio
 id ratio
-id rbImperial
-id rbMetric
+id rbSettingsImperial
+id rbSettingsMetric
+id rbThemeDark
+id rbThemeLight
+id rbThemeSystem
 id rectangles
 id report_drawn
 id reverseSawtooth
-id rgUnits
+id rgSettingsTheme
+id rgSettingsUnits
 id right
 id rightToLeft
 id right_icon
 id right_side
 id rounded
 id row_index_key
+id rvFavorites
 id save_non_transition_alpha
 id save_overlay_view
 id sawtooth
@@ -3576,6 +3588,8 @@ id transition_transform
 id triangle
 id tvCurrentConditions
 id tvLocation
+id tvStationId
+id tvStationName
 id tvWeather
 id unchecked
 id uniform
@@ -3715,6 +3729,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_main
+layout activity_settings
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -3731,8 +3746,10 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout dialog_favorites
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
+layout item_favorite
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -3904,6 +3921,7 @@ string material_timepicker_select_time
 string material_timepicker_text_input_mode_description
 string menu_favorites
 string menu_home
+string menu_settings
 string mtrl_badge_numberless_content_description
 string mtrl_checkbox_button_icon_path_checked
 string mtrl_checkbox_button_icon_path_group_name
@@ -3972,6 +3990,8 @@ string path_password_eye
 string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
+string pref_category_theme
+string pref_category_units
 string remove
 string save
 string search_menu_title
@@ -3982,6 +4002,9 @@ string side_sheet_accessibility_pane_title
 string side_sheet_behavior
 string station_not_found
 string status_bar_notification_info_overflow
+string theme_dark
+string theme_light
+string theme_system
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

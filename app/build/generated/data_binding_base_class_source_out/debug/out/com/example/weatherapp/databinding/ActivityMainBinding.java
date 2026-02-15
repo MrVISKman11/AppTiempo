@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,15 +62,6 @@ public final class ActivityMainBinding implements ViewBinding {
   public final NavigationView navView;
 
   @NonNull
-  public final RadioButton rbImperial;
-
-  @NonNull
-  public final RadioButton rbMetric;
-
-  @NonNull
-  public final RadioGroup rgUnits;
-
-  @NonNull
   public final TextView tvCurrentConditions;
 
   @NonNull
@@ -87,10 +76,8 @@ public final class ActivityMainBinding implements ViewBinding {
       @NonNull LineChart chartWind, @NonNull DrawerLayout drawerLayout,
       @NonNull EditText etStationId, @NonNull TextView headerForecast,
       @NonNull TextView headerPrecip, @NonNull TextView headerTemp, @NonNull TextView headerWind,
-      @NonNull NavigationView navView, @NonNull RadioButton rbImperial,
-      @NonNull RadioButton rbMetric, @NonNull RadioGroup rgUnits,
-      @NonNull TextView tvCurrentConditions, @NonNull TextView tvLocation,
-      @NonNull TextView tvWeather) {
+      @NonNull NavigationView navView, @NonNull TextView tvCurrentConditions,
+      @NonNull TextView tvLocation, @NonNull TextView tvWeather) {
     this.rootView = rootView;
     this.btnAddToFavorites = btnAddToFavorites;
     this.btnConsult = btnConsult;
@@ -104,9 +91,6 @@ public final class ActivityMainBinding implements ViewBinding {
     this.headerTemp = headerTemp;
     this.headerWind = headerWind;
     this.navView = navView;
-    this.rbImperial = rbImperial;
-    this.rbMetric = rbMetric;
-    this.rgUnits = rgUnits;
     this.tvCurrentConditions = tvCurrentConditions;
     this.tvLocation = tvLocation;
     this.tvWeather = tvWeather;
@@ -207,24 +191,6 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.rbImperial;
-      RadioButton rbImperial = ViewBindings.findChildViewById(rootView, id);
-      if (rbImperial == null) {
-        break missingId;
-      }
-
-      id = R.id.rbMetric;
-      RadioButton rbMetric = ViewBindings.findChildViewById(rootView, id);
-      if (rbMetric == null) {
-        break missingId;
-      }
-
-      id = R.id.rgUnits;
-      RadioGroup rgUnits = ViewBindings.findChildViewById(rootView, id);
-      if (rgUnits == null) {
-        break missingId;
-      }
-
       id = R.id.tvCurrentConditions;
       TextView tvCurrentConditions = ViewBindings.findChildViewById(rootView, id);
       if (tvCurrentConditions == null) {
@@ -245,8 +211,8 @@ public final class ActivityMainBinding implements ViewBinding {
 
       return new ActivityMainBinding((DrawerLayout) rootView, btnAddToFavorites, btnConsult,
           chartPrecip, chartTemperature, chartWind, drawerLayout, etStationId, headerForecast,
-          headerPrecip, headerTemp, headerWind, navView, rbImperial, rbMetric, rgUnits,
-          tvCurrentConditions, tvLocation, tvWeather);
+          headerPrecip, headerTemp, headerWind, navView, tvCurrentConditions, tvLocation,
+          tvWeather);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

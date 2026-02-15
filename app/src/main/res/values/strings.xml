@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">App del Tiempo</string>
+    <string name="app_name">Tiempo</string>
     <string name="loading">Cargando datos...</string>
     <string name="error_prefix">Error: </string>
     <string name="location_label">--</string>

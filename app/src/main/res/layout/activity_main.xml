@@ -35,8 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/hint_pws_id"
-                    android:inputType="textCapCharacters"
-                    android:text="IPOZUE59" />
+                    android:inputType="textCapCharacters" />
 
                 <ImageButton
                     android:id="@+id/btnAddToFavorites"
