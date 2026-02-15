@@ -254,6 +254,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_favorites -> {
                 showFavoritesDialog()
             }
+            R.id.nav_wundermap -> {
+                startActivity(Intent(this, WunderMapActivity::class.java))
+            }
             R.id.nav_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
             }

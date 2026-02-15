@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:2:1-30:12
-INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:2:1-30:12
-INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:2:1-30:12
-INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:2:1-30:12
+ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:2:1-36:12
 MERGED from [androidx.databinding:viewbinding:8.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\b09543c1fd6629dd9a5362f1d8b36cc8\transformed\jetified-viewbinding-8.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\Miguel\.gradle\caches\transforms-3\8f233cd207c72d15e2cbf7d39024ac77\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Miguel\.gradle\caches\transforms-3\ad0352c600be7f232d7167d1af9df1b7\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
@@ -13,6 +13,10 @@ MERGED from [androidx.viewpager2:viewpager2:1.1.0-beta02] C:\Users\Miguel\.gradl
 MERGED from [androidx.recyclerview:recyclerview:1.3.2] C:\Users\Miguel\.gradle\caches\transforms-3\2d873381ca6f98e376666f046be422ee\transformed\recyclerview-1.3.2\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\2910602e346cd074a0d7a605464ab721\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\c3e6b7e0e76d5240c160b62356b20e25\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:17:1-35:12
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\Miguel\.gradle\caches\transforms-3\28f342461a3e153254cd2e5b68a11b23\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\4207d07ba949a7fd16017ee95573797e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Miguel\.gradle\caches\transforms-3\084098fa1ef9a2d6c23291987f175e36\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\b8310769cf83546bf96639f0d15c5e9d\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
 MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\Miguel\.gradle\caches\transforms-3\5ed9bd0069b38e534dfd8200494508d0\transformed\fragment-1.3.6\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\Miguel\.gradle\caches\transforms-3\f72ef210eeaff6818da2fc02ca32a3f5\transformed\jetified-activity-1.8.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Miguel\.gradle\caches\transforms-3\a1e236010510449c433bb69ea0f31a32\transformed\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
@@ -63,15 +67,27 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:5:5-67
 	android:name
 		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:5:22-64
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:6:5-79
+	android:name
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:6:22-76
 application
-ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:7:5-28:19
-INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:7:5-28:19
+ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:8:5-34:19
+INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:8:5-34:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\Miguel\.gradle\caches\transforms-3\8f233cd207c72d15e2cbf7d39024ac77\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\Miguel\.gradle\caches\transforms-3\8f233cd207c72d15e2cbf7d39024ac77\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Miguel\.gradle\caches\transforms-3\ad0352c600be7f232d7167d1af9df1b7\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Miguel\.gradle\caches\transforms-3\ad0352c600be7f232d7167d1af9df1b7\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\c3e6b7e0e76d5240c160b62356b20e25\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\c3e6b7e0e76d5240c160b62356b20e25\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\Miguel\.gradle\caches\transforms-3\28f342461a3e153254cd2e5b68a11b23\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\Miguel\.gradle\caches\transforms-3\28f342461a3e153254cd2e5b68a11b23\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\4207d07ba949a7fd16017ee95573797e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\4207d07ba949a7fd16017ee95573797e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Miguel\.gradle\caches\transforms-3\084098fa1ef9a2d6c23291987f175e36\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Miguel\.gradle\caches\transforms-3\084098fa1ef9a2d6c23291987f175e36\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\b8310769cf83546bf96639f0d15c5e9d\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\b8310769cf83546bf96639f0d15c5e9d\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
 MERGED from [androidx.core:core:1.12.0] C:\Users\Miguel\.gradle\caches\transforms-3\0d4ffc60e85a7c7f9fbeb27599893adc\transformed\core-1.12.0\AndroidManifest.xml:28:5-89
 MERGED from [androidx.core:core:1.12.0] C:\Users\Miguel\.gradle\caches\transforms-3\0d4ffc60e85a7c7f9fbeb27599893adc\transformed\core-1.12.0\AndroidManifest.xml:28:5-89
 MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Miguel\.gradle\caches\transforms-3\5fbfed2406da1ec4cc4dfee4163f3868\transformed\jetified-lifecycle-process-2.6.2\AndroidManifest.xml:23:5-33:19
@@ -87,45 +103,55 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Miguel\.gradle\cac
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\Miguel\.gradle\caches\transforms-3\0d4ffc60e85a7c7f9fbeb27599893adc\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:12:9-35
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:13:9-35
 	android:label
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:10:9-41
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:11:9-41
 	android:roundIcon
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:11:9-50
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:12:9-50
 	tools:targetApi
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:14:9-29
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:15:9-29
 	android:icon
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:9:9-45
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:10:9-45
 	android:allowBackup
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:8:9-35
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:9:9-35
 	android:theme
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:13:9-48
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:14:9-48
 activity#com.example.weatherapp.MainActivity
-ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:15:9-22:20
+ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:16:9-23:20
 	android:exported
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:17:13-36
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:18:13-36
 	android:name
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:16:13-41
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:17:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:18:13-21:29
+ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:19:13-22:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:19:17-69
+ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:20:17-69
 	android:name
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:19:25-66
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:20:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:20:17-77
+ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:21:17-77
 	android:name
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:20:27-74
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:21:27-74
 activity#com.example.weatherapp.SettingsActivity
-ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:23:9-27:58
+ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:24:9-28:58
 	android:parentActivityName
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:27:13-55
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:28:13-55
 	android:label
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:26:13-50
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:27:13-50
 	android:exported
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:25:13-37
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:26:13-37
 	android:name
-		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:24:13-45
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:25:13-45
+activity#com.example.weatherapp.WunderMapActivity
+ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:29:9-33:58
+	android:parentActivityName
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:33:13-55
+	android:label
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:32:13-38
+	android:exported
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:31:13-37
+	android:name
+		ADDED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml:30:13-46
 uses-sdk
 INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Miguel\Documents\AppTiempo\app\src\main\AndroidManifest.xml
@@ -148,6 +174,14 @@ MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\Miguel\.gradle\
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\2910602e346cd074a0d7a605464ab721\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\c3e6b7e0e76d5240c160b62356b20e25\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\c3e6b7e0e76d5240c160b62356b20e25\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\Miguel\.gradle\caches\transforms-3\28f342461a3e153254cd2e5b68a11b23\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\Miguel\.gradle\caches\transforms-3\28f342461a3e153254cd2e5b68a11b23\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\4207d07ba949a7fd16017ee95573797e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\4207d07ba949a7fd16017ee95573797e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Miguel\.gradle\caches\transforms-3\084098fa1ef9a2d6c23291987f175e36\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Miguel\.gradle\caches\transforms-3\084098fa1ef9a2d6c23291987f175e36\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\b8310769cf83546bf96639f0d15c5e9d\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\b8310769cf83546bf96639f0d15c5e9d\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
 MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\Miguel\.gradle\caches\transforms-3\5ed9bd0069b38e534dfd8200494508d0\transformed\fragment-1.3.6\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\Miguel\.gradle\caches\transforms-3\5ed9bd0069b38e534dfd8200494508d0\transformed\fragment-1.3.6\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\Miguel\.gradle\caches\transforms-3\f72ef210eeaff6818da2fc02ca32a3f5\transformed\jetified-activity-1.8.0\AndroidManifest.xml:20:5-44
@@ -246,6 +280,20 @@ ADDED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Miguel\.gradle\caches\transfo
 		ADDED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\c3e6b7e0e76d5240c160b62356b20e25\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
 	android:name
 		ADDED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Miguel\.gradle\caches\transforms-3\c3e6b7e0e76d5240c160b62356b20e25\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\4207d07ba949a7fd16017ee95573797e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\4207d07ba949a7fd16017ee95573797e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\4207d07ba949a7fd16017ee95573797e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\4207d07ba949a7fd16017ee95573797e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\b8310769cf83546bf96639f0d15c5e9d\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\b8310769cf83546bf96639f0d15c5e9d\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Miguel\.gradle\caches\transforms-3\b8310769cf83546bf96639f0d15c5e9d\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
 permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.12.0] C:\Users\Miguel\.gradle\caches\transforms-3\0d4ffc60e85a7c7f9fbeb27599893adc\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
