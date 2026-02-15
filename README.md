@@ -1,4 +1,2 @@
-﻿# AppTiempo
-# AppTiempo
 
-Cambiar que no se resetee la busqueda actual al girar la pantalla
+
