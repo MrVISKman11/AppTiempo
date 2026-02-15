@@ -368,6 +368,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val precipEntries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val cal = java.util.Calendar.getInstance()
         
         val sortedObs = observations.sortedBy { it.epoch }
         
@@ -381,7 +382,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
              windEntries.add(Entry(index.toFloat(), wind))
              precipEntries.add(BarEntry(index.toFloat(), precip))
              
-             labels.add(sdf.format(Date(obs.epoch * 1000)))
+             // Round to nearest hour
+             cal.timeInMillis = obs.epoch * 1000
+             if (cal.get(java.util.Calendar.MINUTE) >= 30) {
+                 cal.add(java.util.Calendar.HOUR_OF_DAY, 1)
+             }
+             cal.set(java.util.Calendar.MINUTE, 0)
+             labels.add(sdf.format(cal.time))
         }
         
         withContext(Dispatchers.Main) {
