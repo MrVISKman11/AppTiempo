@@ -95,11 +95,16 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"/>
 
+
+
+
+
+            <!-- Master Header for All Graphs -->
             <TextView
-                android:id="@+id/headerTemp"
+                android:id="@+id/headerGraphs24h"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Historial 24h (Temperatura)"
+                android:text="Gráficos 24h"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:layout_marginBottom="8dp"
                 android:background="?attr/selectableItemBackground"
@@ -107,50 +112,147 @@
                 android:focusable="true"
                 app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chartTemperature"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/headerWind"
+            <!-- Container for all graphs, initially hidden -->
+            <LinearLayout
+                android:id="@+id/llGraphsContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Historial 24h (Viento)"
-                android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chartWind"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone"/>
+                <!-- Temperature -->
+                <TextView
+                    android:id="@+id/headerTemp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Temperatura"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
 
-            <TextView
-                android:id="@+id/headerPrecip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Historial 24h (Precipitación)"
-                android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/chartPrecip"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone"/>
+                <!-- Wind -->
+                <TextView
+                    android:id="@+id/headerWind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Viento"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartWind"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+                <!-- Precipitation -->
+                <TextView
+                    android:id="@+id/headerPrecip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Precipitación"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/chartPrecip"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+                <!-- Solar Radiation -->
+                <TextView
+                    android:id="@+id/headerSolar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Radiación Solar"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartSolar"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+                <!-- UV Index -->
+                <TextView
+                    android:id="@+id/headerUV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Índice UV"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartUV"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+                <!-- Pressure -->
+                <TextView
+                    android:id="@+id/headerPressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Presión"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartPressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

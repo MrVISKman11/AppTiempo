@@ -64,6 +64,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var chartTemperature: LineChart
     private lateinit var chartWind: LineChart
     private lateinit var chartPrecip: BarChart
+    private lateinit var chartSolar: LineChart
+    private lateinit var chartUV: LineChart
+    private lateinit var chartPressure: LineChart
+    private lateinit var llGraphsContent: android.widget.LinearLayout
     private lateinit var viewModel: WeatherViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,7 +89,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         chartTemperature = findViewById(R.id.chartTemperature)
         chartWind = findViewById(R.id.chartWind)
         chartPrecip = findViewById(R.id.chartPrecip)
-        
+        chartSolar = findViewById(R.id.chartSolar)
+        chartUV = findViewById(R.id.chartUV)
+        chartPressure = findViewById(R.id.chartPressure)
+        llGraphsContent = findViewById(R.id.llGraphsContent)
+
         setupCharts()
         setupCollapsibleSections()
         
@@ -169,14 +177,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     
     private fun setupCollapsibleSections() {
         val headerForecast: TextView = findViewById(R.id.headerForecast)
+        val headerGraphs24h: TextView = findViewById(R.id.headerGraphs24h)
         val headerTemp: TextView = findViewById(R.id.headerTemp)
         val headerWind: TextView = findViewById(R.id.headerWind)
         val headerPrecip: TextView = findViewById(R.id.headerPrecip)
+        val headerSolar: TextView = findViewById(R.id.headerSolar)
+        val headerUV: TextView = findViewById(R.id.headerUV)
+        val headerPressure: TextView = findViewById(R.id.headerPressure)
 
         toggleSection(headerForecast, tvWeather)
+        toggleSection(headerGraphs24h, llGraphsContent)
         toggleSection(headerTemp, chartTemperature)
         toggleSection(headerWind, chartWind)
         toggleSection(headerPrecip, chartPrecip)
+        toggleSection(headerSolar, chartSolar)
+        toggleSection(headerUV, chartUV)
+        toggleSection(headerPressure, chartPressure)
     }
 
     private fun toggleSection(header: TextView, content: android.view.View) {
@@ -232,6 +248,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         chartPrecip.axisLeft.setDrawZeroLine(true) // Draw line at 0
         chartPrecip.legend.textColor = textColor
         chartPrecip.axisRight.isEnabled = false
+
+        // Solar
+        setupLineChart(chartSolar, textColor)
+
+        // UV
+        setupLineChart(chartUV, textColor)
+
+        // Pressure
+        setupLineChart(chartPressure, textColor)
+    }
+
+    private fun setupLineChart(chart: LineChart, textColor: Int) {
+        chart.description.isEnabled = false
+        chart.setTouchEnabled(true)
+        chart.isDragEnabled = true
+        chart.setScaleEnabled(true)
+        val xAxis = chart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.textColor = textColor
+        chart.axisLeft.textColor = textColor
+        chart.legend.textColor = textColor
+        chart.axisRight.isEnabled = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -353,6 +392,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val tempEntries = ArrayList<Entry>()
         val windEntries = ArrayList<Entry>()
         val precipEntries = ArrayList<BarEntry>()
+        val solarEntries = ArrayList<Entry>()
+        val uvEntries = ArrayList<Entry>()
+        val pressureEntries = ArrayList<Entry>()
         val labels = ArrayList<String>()
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         val cal = java.util.Calendar.getInstance()
@@ -364,10 +406,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
              val temp = data?.tempAvg?.toFloat() ?: 0f
              val wind = data?.windspeedAvg?.toFloat() ?: 0f
              val precip = data?.precipTotal?.toFloat() ?: 0f
+             val solar = obs.solarRadiationHigh?.toFloat() ?: 0f
+             val uv = obs.uvHigh?.toFloat() ?: 0f
+             val pressure = data?.pressureMax?.toFloat() ?: 0f
 
              tempEntries.add(Entry(index.toFloat(), temp))
              windEntries.add(Entry(index.toFloat(), wind))
              precipEntries.add(BarEntry(index.toFloat(), precip))
+             solarEntries.add(Entry(index.toFloat(), solar))
+             uvEntries.add(Entry(index.toFloat(), uv))
+             pressureEntries.add(Entry(index.toFloat(), pressure))
              
              // Round to nearest hour
              cal.timeInMillis = obs.epoch * 1000
@@ -411,6 +459,39 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             chartPrecip.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartPrecip.invalidate()
             chartPrecip.animateY(1000)
+
+            // Solar Chart
+            val solarDataSet = LineDataSet(solarEntries, "Radiación Solar (W/m²)")
+            solarDataSet.color = Color.YELLOW
+            solarDataSet.setDrawCircles(false)
+            solarDataSet.lineWidth = 2f
+            solarDataSet.valueTextColor = textColor
+            chartSolar.data = LineData(solarDataSet)
+            chartSolar.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+            chartSolar.invalidate()
+            chartSolar.animateX(1000)
+
+            // UV Chart
+            val uvDataSet = LineDataSet(uvEntries, "Índice UV")
+            uvDataSet.color = Color.MAGENTA
+            uvDataSet.setDrawCircles(false)
+            uvDataSet.lineWidth = 2f
+            uvDataSet.valueTextColor = textColor
+            chartUV.data = LineData(uvDataSet)
+            chartUV.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+            chartUV.invalidate()
+            chartUV.animateX(1000)
+
+            // Pressure Chart
+            val pressureDataSet = LineDataSet(pressureEntries, "Presión (${if (isMetric) "hPa" else "inHg"})")
+            pressureDataSet.color = Color.CYAN
+            pressureDataSet.setDrawCircles(false)
+            pressureDataSet.lineWidth = 2f
+            pressureDataSet.valueTextColor = textColor
+            chartPressure.data = LineData(pressureDataSet)
+            chartPressure.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+            chartPressure.invalidate()
+            chartPressure.animateX(1000)
         }
     }
 

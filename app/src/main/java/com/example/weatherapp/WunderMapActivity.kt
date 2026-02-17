@@ -59,6 +59,13 @@ class WunderMapActivity : AppCompatActivity() {
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 progressBar.visibility = View.GONE
+                // Inject CSS to hide header, footer, and ads
+                val js = "javascript:(function() { " +
+                        "var style = document.createElement('style');" +
+                        "style.innerHTML = 'header, footer, .ad-container, .commercial-unit, [id^=\"google_ads\"], .wu-ad, .city-header { display: none !important; }';" +
+                        "document.head.appendChild(style);" +
+                        "})()"
+                view?.loadUrl(js)
             }
         }
     }

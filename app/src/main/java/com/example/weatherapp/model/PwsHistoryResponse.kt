@@ -7,11 +7,14 @@ data class PwsHistoryResponse(
 data class PwsHistoryObservation(
     val epoch: Long,
     val metric: PwsHistoryUnits?, // For Celsius
-    val imperial: PwsHistoryUnits? // For Fahrenheit
+    val imperial: PwsHistoryUnits?, // For Fahrenheit
+    val solarRadiationHigh: Double?,
+    val uvHigh: Double?
 )
 
 data class PwsHistoryUnits(
     val tempAvg: Double?,
     val windspeedAvg: Double?,
-    val precipTotal: Double?
+    val precipTotal: Double?,
+    val pressureMax: Double?
 )
