@@ -645,7 +645,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun getWindDirection(degrees: Int?): String {
         if (degrees == null) return ""
-        val directions = arrayOf("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO")
+        val isEnglish = Locale.getDefault().language == "en"
+        val directions = if (isEnglish) {
+            arrayOf("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW")
+        } else {
+            arrayOf("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO")
+        }
         val index = ((degrees / 22.5) + 0.5).toInt() % 16
         return directions[index]
     }
