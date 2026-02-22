@@ -54,5 +54,5 @@
     <string name="pref_reset_colors">Reset Colors to Default</string>
     <string name="label_humidity">Humidity</string>
     <string name="label_gust">Gust</string>
-    <string name="version_label">v1.1.3</string>
+    <string name="version_label">v1.1.4</string>
 </resources>

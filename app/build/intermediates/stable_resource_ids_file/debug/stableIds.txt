@@ -1231,6 +1231,7 @@ com.example.weatherapp:id/tag_on_receive_content_listener = 0x7f0801f9
 com.example.weatherapp:id/tag_on_apply_window_listener = 0x7f0801f8
 com.example.weatherapp:id/tag_accessibility_pane_title = 0x7f0801f7
 com.example.weatherapp:id/tag_accessibility_heading = 0x7f0801f6
+com.example.weatherapp:string/version_label = 0x7f0f00ee
 com.example.weatherapp:id/tvDayOfWeek = 0x7f080223
 com.example.weatherapp:id/tabMode = 0x7f0801f3
 com.example.weatherapp:style/Widget.Material3.Button.ElevatedButton = 0x7f10034d

@@ -53,5 +53,5 @@
     <string name="pref_reset_colors">Restablecer Colores por Defecto</string>
     <string name="label_humidity">Humedad</string>
     <string name="label_gust">Ráfaga</string>
-    <string name="version_label">v1.1.3</string>
+    <string name="version_label">v1.1.4</string>
 </resources>

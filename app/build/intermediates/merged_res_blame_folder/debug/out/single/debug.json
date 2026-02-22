@@ -1,11 +1,11 @@
 [
     {
-        "merged": "com.example.weatherapp-merged_res-35:/drawable_ic_star_outline.xml.flat",
-        "source": "com.example.weatherapp-main-37:/drawable/ic_star_outline.xml"
-    },
-    {
         "merged": "C:\\Users\\Miguel\\.gradle\\daemon\\8.5\\com.example.weatherapp-merged_res-35:\\drawable_ic_menu_reorder.xml.flat",
         "source": "C:\\Users\\Miguel\\.gradle\\daemon\\8.5\\com.example.weatherapp-main-37:\\drawable\\ic_menu_reorder.xml"
+    },
+    {
+        "merged": "com.example.weatherapp-merged_res-35:/layout_activity_main.xml.flat",
+        "source": "com.example.weatherapp-main-37:/layout/activity_main.xml"
     },
     {
         "merged": "C:\\Users\\Miguel\\.gradle\\daemon\\8.5\\com.example.weatherapp-merged_res-35:\\drawable_marker_bg.xml.flat",
@@ -50,6 +50,10 @@
     {
         "merged": "C:\\Users\\Miguel\\.gradle\\daemon\\8.5\\com.example.weatherapp-merged_res-35:\\layout_activity_main.xml.flat",
         "source": "C:\\Users\\Miguel\\.gradle\\daemon\\8.5\\com.example.weatherapp-main-37:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Miguel\\.gradle\\daemon\\8.5\\com.example.weatherapp-merged_res-35:\\drawable_ic_star_outline.xml.flat",
+        "source": "C:\\Users\\Miguel\\.gradle\\daemon\\8.5\\com.example.weatherapp-main-37:\\drawable\\ic_star_outline.xml"
     },
     {
         "merged": "C:\\Users\\Miguel\\.gradle\\daemon\\8.5\\com.example.weatherapp-merged_res-35:\\drawable_ic_home.xml.flat",

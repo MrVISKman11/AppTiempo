@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/version_label"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:gravity="end"
+                android:alpha="0.6"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_pws_id"
+                android:textAppearance="?attr/textAppearanceSubtitle1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/etStationId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_pws_id"
+                    android:inputType="textCapCharacters" />
+
+                <ImageButton
+                    android:id="@+id/btnAddToFavorites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star"
+                    app:tint="?attr/colorControlNormal"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/add_favorite"
+                    android:padding="8dp"/>
+            </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/btnConsult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/consultar"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location_label"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tvCurrentConditions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/current_conditions"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/headerForecast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/forecast_label"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:layout_marginBottom="4dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvForecast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_forecast_day" />
+
+
+
+
+
+            <!-- Master Header for All Graphs -->
+            <TextView
+                android:id="@+id/headerGraphs24h"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graphs_24h"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+
+            <!-- Container for all graphs, initially hidden -->
+            <LinearLayout
+                android:id="@+id/llGraphsContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Temperature -->
+                <TextView
+                    android:id="@+id/headerTemp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/graph_temp"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+                <!-- Wind -->
+                <TextView
+                    android:id="@+id/headerWind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/graph_wind"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartWind"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+                <!-- Precipitation -->
+                <TextView
+                    android:id="@+id/headerPrecip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/graph_precip"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/chartPrecip"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+                <!-- Solar Radiation -->
+                <TextView
+                    android:id="@+id/headerSolar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/graph_solar"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartSolar"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+                <!-- UV Index -->
+                <TextView
+                    android:id="@+id/headerUV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/graph_uv"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartUV"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+                <!-- Pressure -->
+                <TextView
+                    android:id="@+id/headerPressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/graph_pressure"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartPressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

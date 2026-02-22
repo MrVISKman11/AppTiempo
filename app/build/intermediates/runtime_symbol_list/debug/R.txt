@@ -4151,6 +4151,7 @@ int string status_bar_notification_info_overflow 0x7f0f00ea
 int string theme_dark 0x7f0f00eb
 int string theme_light 0x7f0f00ec
 int string theme_system 0x7f0f00ed
+int string version_label 0x7f0f00ee
 int style AlertDialog_AppCompat 0x7f100000
 int style AlertDialog_AppCompat_Light 0x7f100001
 int style Animation_AppCompat_Dialog 0x7f100002

@@ -54,4 +54,5 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_light">Light</string>
     <string name="theme_system">System</string>
+    <string name="version_label">v1.1.3</string>
 </resources>

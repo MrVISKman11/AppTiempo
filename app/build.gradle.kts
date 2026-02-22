@@ -11,8 +11,8 @@ android {
         applicationId = "com.example.weatherapp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 4
-        versionName = "1.1.3"
+        versionCode = 5
+        versionName = "1.1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,7 +27,7 @@ android {
     applicationVariants.all {
         outputs.all {
             val output = this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
-            output.outputFileName = "AppTiempo.apk"
+            output.outputFileName = "AppTiempo-v${versionName}.apk"
         }
     }
     compileOptions {

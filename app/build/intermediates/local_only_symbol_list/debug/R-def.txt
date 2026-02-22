@@ -157,4 +157,5 @@ string station_not_found
 string theme_dark
 string theme_light
 string theme_system
+string version_label
 style Theme.WeatherApp
