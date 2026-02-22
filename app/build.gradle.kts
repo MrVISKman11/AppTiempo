@@ -27,7 +27,10 @@ android {
     applicationVariants.all {
         outputs.all {
             val output = this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
-            output.outputFileName = "AppTiempo-v${versionName}.apk"
+            // Only rename the actual app APKs (debug/release), not test APKs
+            if (!name.contains("AndroidTest")) {
+                output.outputFileName = "AppTiempo-v${versionName}.apk"
+            }
         }
     }
     compileOptions {
