@@ -14,7 +14,8 @@ data class PwsObservation(
     @SerializedName("obsTimeLocal") val obsTimeLocal: String?,
     @SerializedName("winddir") val winddir: Int?,
     @SerializedName("imperial") val imperial: PwsUnits?, // Used when units=e
-    @SerializedName("metric") val metric: PwsUnits?      // Used when units=m
+    @SerializedName("metric") val metric: PwsUnits?,     // Used when units=m
+    @SerializedName("humidity") val humidity: Double?
 )
 
 data class PwsUnits(

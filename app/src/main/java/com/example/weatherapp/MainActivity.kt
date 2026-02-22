@@ -12,6 +12,9 @@ import android.widget.ImageButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.TypedValue
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 
@@ -32,6 +35,8 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
+import java.text.DecimalFormat
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -48,10 +53,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.weatherapp.ui.adapter.FavoritesAdapter
 import com.example.weatherapp.viewmodel.WeatherViewModel
+import com.example.weatherapp.ui.CustomMarkerView
+import com.example.weatherapp.ui.adapter.ForecastAdapter
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var tvWeather: TextView
+    private lateinit var rvForecast: RecyclerView
+    private lateinit var forecastAdapter: ForecastAdapter
     private lateinit var tvLocation: TextView
     private lateinit var tvCurrentConditions: TextView
     private lateinit var btnConsult: Button
@@ -79,7 +87,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
-        tvWeather = findViewById(R.id.tvWeather)
+        rvForecast = findViewById(R.id.rvForecast)
         tvLocation = findViewById(R.id.tvLocation)
         tvCurrentConditions = findViewById(R.id.tvCurrentConditions)
         btnConsult = findViewById(R.id.btnConsult)
@@ -107,23 +115,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         
         navView.setNavigationItemSelectedListener(this)
 
-        tvWeather.text = getString(R.string.loading)
+        rvForecast.layoutManager = LinearLayoutManager(this)
+        forecastAdapter = ForecastAdapter()
+        rvForecast.adapter = forecastAdapter
 
         btnConsult.setOnClickListener {
-            val stationId = etStationId.text.toString().trim()
+            val stationId = etStationId.text.toString().trim().uppercase()
             if (stationId.isNotEmpty()) {
                 val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
-                val isMetric = sharedPref.getBoolean("isMetric", true)
-                viewModel.fetchWeather(stationId, isMetric)
+                val tempUnit = sharedPref.getString("pref_temp_unit", "C") ?: "C"
+                val speedUnit = sharedPref.getString("pref_speed_unit", "kmh") ?: "kmh"
+                val precipUnit = sharedPref.getString("pref_precip_unit", "mm") ?: "mm"
+                viewModel.fetchWeather(stationId, tempUnit, speedUnit, precipUnit)
             } else {
                 etStationId.error = getString(R.string.hint_pws_id)
             }
         }
 
+        etStationId.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                updateFavoriteIcon()
+            }
+        })
+
         btnAddToFavorites.setOnClickListener {
-            val stationId = etStationId.text.toString().trim()
+            val stationId = etStationId.text.toString().trim().uppercase()
             if (stationId.isNotEmpty()) {
-                showAddFavoriteDialog(stationId)
+                val isFavorite = repository.getFavorites().any { it.id.equals(stationId, ignoreCase = true) }
+                if (isFavorite) {
+                    repository.removeFavorite(stationId)
+                    Toast.makeText(this, getString(R.string.remove), Toast.LENGTH_SHORT).show()
+                    updateFavoriteIcon()
+                } else {
+                    showAddFavoriteDialog(stationId)
+                }
             } else {
                 Toast.makeText(this, getString(R.string.hint_pws_id), Toast.LENGTH_SHORT).show()
             }
@@ -137,9 +164,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val defaultStation = favorites[0]
                 etStationId.setText(defaultStation.id)
                 val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
-                val isMetric = sharedPref.getBoolean("isMetric", true)
-                viewModel.fetchWeather(defaultStation.id, isMetric)
+                val tempUnit = sharedPref.getString("pref_temp_unit", "C") ?: "C"
+                val speedUnit = sharedPref.getString("pref_speed_unit", "kmh") ?: "kmh"
+                val precipUnit = sharedPref.getString("pref_precip_unit", "mm") ?: "mm"
+                viewModel.fetchWeather(defaultStation.id, tempUnit, speedUnit, precipUnit)
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateFavoriteIcon()
+        
+        val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
+        val tempUnit = sharedPref.getString("pref_temp_unit", "C") ?: "C"
+        val speedUnit = sharedPref.getString("pref_speed_unit", "kmh") ?: "kmh"
+        val precipUnit = sharedPref.getString("pref_precip_unit", "mm") ?: "mm"
+        val currentLang = java.util.Locale.getDefault().language
+        val stationId = findViewById<EditText>(R.id.etStationId).text.toString().trim().uppercase()
+        
+        if (viewModel.lastLanguage != "" && (viewModel.lastLanguage != currentLang || viewModel.lastTempUnit != tempUnit || viewModel.lastSpeedUnit != speedUnit || viewModel.lastPrecipUnit != precipUnit)) {
+            if (stationId.isNotEmpty()) {
+                viewModel.fetchWeather(stationId, tempUnit, speedUnit, precipUnit)
+            }
+        }
+    }
+
+    private fun updateFavoriteIcon() {
+        val etStationId: EditText = findViewById(R.id.etStationId)
+        val btnAddToFavorites: ImageButton = findViewById(R.id.btnAddToFavorites)
+        val stationId = etStationId.text.toString().trim().uppercase()
+        val isFavorite = repository.getFavorites().any { it.id.equals(stationId, ignoreCase = true) }
+        
+        if (isFavorite) {
+            btnAddToFavorites.setImageResource(R.drawable.ic_star)
+            btnAddToFavorites.setColorFilter(Color.parseColor("#FFD700"))
+        } else {
+            btnAddToFavorites.setImageResource(R.drawable.ic_star_outline)
+            btnAddToFavorites.setColorFilter(Color.parseColor("#FFD700"))
         }
     }
 
@@ -147,7 +209,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
 
         viewModel.weatherForecast.observe(this) { forecast ->
-            tvWeather.text = forecast
+            if (forecast.isNotEmpty()) {
+                val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
+                val tempUnit = sharedPref.getString("pref_temp_unit", "C") ?: "C"
+                forecastAdapter.setForecasts(forecast, tempUnit)
+                // We keep rvForecast visibility logic to the toggle header
+            } else {
+                rvForecast.visibility = android.view.View.GONE
+            }
         }
 
         viewModel.currentConditions.observe(this) { conditions ->
@@ -160,17 +229,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         viewModel.chartHistory.observe(this) { history ->
             val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
-            val isMetric = sharedPref.getBoolean("isMetric", true)
-            // Use coroutine or simple launch if updateCharts is suspend? 
-            // updateCharts is suspend in original code. We should make it non-suspend or launch it.
-            // Since we are on Main thread here, and updateCharts only does calculation and UI update...
-            // the calculation part (creating entries) might be heavy?
-            // Original code: private suspend fun updateCharts
-            // logic: creates entries (fast), then withContext(Main) update UI.
-            // We can make updateCharts non-suspend or launch a coroutine.
-            // Let's change updateCharts to be non-suspend and use simple logic, or launch lifecycleScope.
+            val tempUnit = sharedPref.getString("pref_temp_unit", "C") ?: "C"
+            val speedUnit = sharedPref.getString("pref_speed_unit", "kmh") ?: "kmh"
+            val precipUnit = sharedPref.getString("pref_precip_unit", "mm") ?: "mm"
              CoroutineScope(Dispatchers.Default).launch {
-                 updateCharts(history, isMetric)
+                 updateCharts(history, tempUnit, speedUnit, precipUnit)
              }
         }
     }
@@ -185,7 +248,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val headerUV: TextView = findViewById(R.id.headerUV)
         val headerPressure: TextView = findViewById(R.id.headerPressure)
 
-        toggleSection(headerForecast, tvWeather)
+        toggleSection(headerForecast, rvForecast)
         toggleSection(headerGraphs24h, llGraphsContent)
         toggleSection(headerTemp, chartTemperature)
         toggleSection(headerWind, chartWind)
@@ -209,6 +272,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val textColor = getThemeTextColor()
 
         // Temperature
+        val tempMarker = CustomMarkerView(this, R.layout.custom_marker_view)
+        tempMarker.chartView = chartTemperature
+        chartTemperature.marker = tempMarker
         chartTemperature.description.isEnabled = false
         chartTemperature.setTouchEnabled(true)
         chartTemperature.isDragEnabled = true
@@ -222,6 +288,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         chartTemperature.axisRight.isEnabled = false
 
         // Wind
+        val windMarker = CustomMarkerView(this, R.layout.custom_marker_view)
+        windMarker.chartView = chartWind
+        chartWind.marker = windMarker
         chartWind.description.isEnabled = false
         chartWind.setTouchEnabled(true)
         chartWind.isDragEnabled = true
@@ -235,6 +304,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         chartWind.axisRight.isEnabled = false
 
         // Precip
+        val precipMarker = CustomMarkerView(this, R.layout.custom_marker_view)
+        precipMarker.chartView = chartPrecip
+        chartPrecip.marker = precipMarker
         chartPrecip.description.isEnabled = false
         chartPrecip.setTouchEnabled(true)
         chartPrecip.isDragEnabled = true
@@ -260,6 +332,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setupLineChart(chart: LineChart, textColor: Int) {
+        val markerView = CustomMarkerView(this, R.layout.custom_marker_view)
+        markerView.chartView = chart
+        chart.marker = markerView
         chart.description.isEnabled = false
         chart.setTouchEnabled(true)
         chart.isDragEnabled = true
@@ -317,6 +392,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val finalName = if (name.isNotEmpty()) name else stationId
                 repository.addFavorite(FavoriteStation(stationId, finalName))
                 Toast.makeText(this, "Guardado!", Toast.LENGTH_SHORT).show()
+                updateFavoriteIcon()
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
@@ -342,8 +418,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             onStationClick = { selected ->
                 etStationId.setText(selected.id)
                 val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
-                val isMetric = sharedPref.getBoolean("isMetric", true)
-                viewModel.fetchWeather(selected.id, isMetric)
+                val tempUnit = sharedPref.getString("pref_temp_unit", "C") ?: "C"
+                val speedUnit = sharedPref.getString("pref_speed_unit", "kmh") ?: "kmh"
+                val precipUnit = sharedPref.getString("pref_precip_unit", "mm") ?: "mm"
+                viewModel.fetchWeather(selected.id, tempUnit, speedUnit, precipUnit)
                 dialog.dismiss()
             },
             onStartDrag = { viewHolder ->
@@ -387,9 +465,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-    
-    private suspend fun updateCharts(observations: List<com.example.weatherapp.model.PwsHistoryObservation>, isMetric: Boolean) {
+    private suspend fun updateCharts(observations: List<com.example.weatherapp.model.PwsHistoryObservation>, tempUnitPref: String, speedUnitPref: String, precipUnitPref: String) {
         val tempEntries = ArrayList<Entry>()
+        val feelsLikeEntries = ArrayList<Entry>()
         val windEntries = ArrayList<Entry>()
         val precipEntries = ArrayList<BarEntry>()
         val solarEntries = ArrayList<Entry>()
@@ -402,15 +480,39 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val sortedObs = observations.sortedBy { it.epoch }
         
         for ((index, obs) in sortedObs.withIndex()) {
-             val data = if (isMetric) obs.metric else obs.imperial
-             val temp = data?.tempAvg?.toFloat() ?: 0f
-             val wind = data?.windspeedAvg?.toFloat() ?: 0f
-             val precip = data?.precipTotal?.toFloat() ?: 0f
+             val data = obs.metric
+             var temp = data?.tempAvg?.toFloat() ?: 0f
+             
+             // Calculate Feels Like (Heat Index / Wind Chill)
+             val heatIndexVal = data?.heatindexAvg?.toFloat()
+             val windChillVal = data?.windchillAvg?.toFloat()
+             var feelsLike = when {
+                 heatIndexVal != null && heatIndexVal > temp -> heatIndexVal
+                 windChillVal != null && windChillVal < temp -> windChillVal
+                 else -> temp
+             }
+
+             if (tempUnitPref == "F") {
+                 temp = (temp * 9f/5f) + 32f
+                 feelsLike = (feelsLike * 9f/5f) + 32f
+             }
+
+             var wind = data?.windspeedAvg?.toFloat() ?: 0f
+             if (speedUnitPref == "mph") {
+                 wind /= 1.60934f
+             }
+
+             var precip = data?.precipTotal?.toFloat() ?: 0f
+             if (precipUnitPref == "in") {
+                 precip /= 25.4f
+             }
+
              val solar = obs.solarRadiationHigh?.toFloat() ?: 0f
              val uv = obs.uvHigh?.toFloat() ?: 0f
              val pressure = data?.pressureMax?.toFloat() ?: 0f
 
              tempEntries.add(Entry(index.toFloat(), temp))
+             feelsLikeEntries.add(Entry(index.toFloat(), feelsLike))
              windEntries.add(Entry(index.toFloat(), wind))
              precipEntries.add(BarEntry(index.toFloat(), precip))
              solarEntries.add(Entry(index.toFloat(), solar))
@@ -429,65 +531,102 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         withContext(Dispatchers.Main) {
             val textColor = getThemeTextColor()
 
+            val sharedPrefColors = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
+            val colorTemp = sharedPrefColors.getInt("pref_color_temp", Color.RED)
+            val colorFeels = sharedPrefColors.getInt("pref_color_feels_like", Color.parseColor("#FFA500"))
+            val colorWind = sharedPrefColors.getInt("pref_color_wind", Color.GREEN)
+            val colorPrecip = sharedPrefColors.getInt("pref_color_precip", Color.BLUE)
+            val colorSolar = sharedPrefColors.getInt("pref_color_solar", Color.YELLOW)
+            val colorUV = sharedPrefColors.getInt("pref_color_uv", Color.MAGENTA)
+            val colorPressure = sharedPrefColors.getInt("pref_color_pressure", Color.CYAN)
+
+            val decimalFormat = DecimalFormat("#.0")
+            val defaultFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String = decimalFormat.format(value)
+            }
+            
             // Temp Chart
-            val tempDataSet = LineDataSet(tempEntries, "Temperatura (${if (isMetric) "°C" else "°F"})")
-            tempDataSet.color = Color.RED
+            val tempDataSet = LineDataSet(tempEntries, "${getString(R.string.graph_temp)} (${if (tempUnitPref == "C") "°C" else "°F"})")
+            tempDataSet.color = colorTemp
             tempDataSet.setDrawCircles(false)
-            tempDataSet.lineWidth = 2f
+            tempDataSet.lineWidth = 3f
             tempDataSet.valueTextColor = textColor
-            chartTemperature.data = LineData(tempDataSet)
+            tempDataSet.valueFormatter = defaultFormatter
+            
+            val feelsLikeDataSet = LineDataSet(feelsLikeEntries, "${getString(R.string.graph_feels_like)} (${if (tempUnitPref == "C") "°C" else "°F"})")
+            feelsLikeDataSet.color = colorFeels
+            feelsLikeDataSet.setDrawCircles(false)
+            feelsLikeDataSet.lineWidth = 1.5f
+            feelsLikeDataSet.enableDashedLine(10f, 5f, 0f)
+            feelsLikeDataSet.valueTextColor = textColor
+            feelsLikeDataSet.valueFormatter = defaultFormatter
+
+            chartTemperature.axisLeft.valueFormatter = defaultFormatter
+            // Draw feelsLike first so tempDataSet draws on top when they overlap
+            chartTemperature.data = LineData(feelsLikeDataSet, tempDataSet)
             chartTemperature.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartTemperature.invalidate()
             chartTemperature.animateX(1000)
 
             // Wind Chart
-            val windDataSet = LineDataSet(windEntries, "Viento (${if (isMetric) "km/h" else "mph"})")
-            windDataSet.color = Color.GREEN
+            val windDataSet = LineDataSet(windEntries, "${getString(R.string.graph_wind)} (${if (speedUnitPref == "kmh") "km/h" else "mph"})")
+            windDataSet.color = colorWind
             windDataSet.setDrawCircles(false)
             windDataSet.lineWidth = 2f
             windDataSet.valueTextColor = textColor
+            windDataSet.valueFormatter = defaultFormatter
+            chartWind.axisLeft.valueFormatter = defaultFormatter
             chartWind.data = LineData(windDataSet)
             chartWind.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartWind.invalidate()
             chartWind.animateX(1000)
 
             // Precip Chart
-            val precipDataSet = BarDataSet(precipEntries, "Precipitación (${if (isMetric) "mm" else "in"})")
-            precipDataSet.color = Color.BLUE
+            val precipDataSet = BarDataSet(precipEntries, "${getString(R.string.graph_precip)} (${if (precipUnitPref == "mm") "mm" else "in"})")
+            precipDataSet.color = colorPrecip
             precipDataSet.valueTextColor = textColor
+            precipDataSet.valueFormatter = defaultFormatter
+            chartPrecip.axisLeft.valueFormatter = defaultFormatter
             chartPrecip.data = BarData(precipDataSet)
             chartPrecip.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartPrecip.invalidate()
             chartPrecip.animateY(1000)
 
             // Solar Chart
-            val solarDataSet = LineDataSet(solarEntries, "Radiación Solar (W/m²)")
-            solarDataSet.color = Color.YELLOW
+            val solarDataSet = LineDataSet(solarEntries, getString(R.string.graph_solar_unit))
+            solarDataSet.color = colorSolar
             solarDataSet.setDrawCircles(false)
             solarDataSet.lineWidth = 2f
             solarDataSet.valueTextColor = textColor
+            solarDataSet.valueFormatter = defaultFormatter
+            chartSolar.axisLeft.valueFormatter = defaultFormatter
             chartSolar.data = LineData(solarDataSet)
             chartSolar.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartSolar.invalidate()
             chartSolar.animateX(1000)
 
             // UV Chart
-            val uvDataSet = LineDataSet(uvEntries, "Índice UV")
-            uvDataSet.color = Color.MAGENTA
+            val uvDataSet = LineDataSet(uvEntries, getString(R.string.graph_uv))
+            uvDataSet.color = colorUV
             uvDataSet.setDrawCircles(false)
             uvDataSet.lineWidth = 2f
             uvDataSet.valueTextColor = textColor
+            uvDataSet.valueFormatter = defaultFormatter
+            chartUV.axisLeft.valueFormatter = defaultFormatter
             chartUV.data = LineData(uvDataSet)
             chartUV.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartUV.invalidate()
             chartUV.animateX(1000)
 
             // Pressure Chart
-            val pressureDataSet = LineDataSet(pressureEntries, "Presión (${if (isMetric) "hPa" else "inHg"})")
-            pressureDataSet.color = Color.CYAN
+            // We didn't add a pressure unit toggle yet, so we map it to precip unit roughly or temp unit for metricness
+            val pressureDataSet = LineDataSet(pressureEntries, "${getString(R.string.graph_pressure)} (${if (tempUnitPref == "C") "hPa" else "inHg"})")
+            pressureDataSet.color = colorPressure
             pressureDataSet.setDrawCircles(false)
             pressureDataSet.lineWidth = 2f
             pressureDataSet.valueTextColor = textColor
+            pressureDataSet.valueFormatter = defaultFormatter
+            chartPressure.axisLeft.valueFormatter = defaultFormatter
             chartPressure.data = LineData(pressureDataSet)
             chartPressure.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chartPressure.invalidate()

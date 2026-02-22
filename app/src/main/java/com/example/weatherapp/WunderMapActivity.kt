@@ -92,16 +92,14 @@ class WunderMapActivity : AppCompatActivity() {
             if (location != null) {
                 val lat = location.latitude
                 val lon = location.longitude
-                // WunderMap URL standard format
-                val url = "https://www.wunderground.com/wundermap?lat=$lat&lon=$lon&zoom=8&radar=1&wxstn=1"
+                val url = "https://www.wunderground.com/wundermap?lat=$lat&lon=$lon&zoom=8&radar=1&wxstn=1&tmp=1"
                 webView.loadUrl(url)
             } else {
                 Toast.makeText(this, "No se pudo obtener la ubicación. Cargando mapa por defecto.", Toast.LENGTH_LONG).show()
-                webView.loadUrl("https://www.wunderground.com/wundermap")
+                webView.loadUrl("https://www.wunderground.com/wundermap?tmp=1")
             }
-        }.addOnFailureListener {
             Toast.makeText(this, "Error al obtener ubicación.", Toast.LENGTH_SHORT).show()
-            webView.loadUrl("https://www.wunderground.com/wundermap")
+            webView.loadUrl("https://www.wunderground.com/wundermap?tmp=1")
             progressBar.visibility = View.GONE
         }
     }
@@ -113,7 +111,7 @@ class WunderMapActivity : AppCompatActivity() {
                 loadMapWithLocation()
             } else {
                 Toast.makeText(this, "Permiso de ubicación denegado. Cargando mapa por defecto.", Toast.LENGTH_LONG).show()
-                webView.loadUrl("https://www.wunderground.com/wundermap")
+                webView.loadUrl("https://www.wunderground.com/wundermap?tmp=1")
                 progressBar.visibility = View.GONE
             }
         }

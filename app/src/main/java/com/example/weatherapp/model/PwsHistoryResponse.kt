@@ -16,5 +16,7 @@ data class PwsHistoryUnits(
     val tempAvg: Double?,
     val windspeedAvg: Double?,
     val precipTotal: Double?,
-    val pressureMax: Double?
+    val pressureMax: Double?,
+    val windchillAvg: Double?,
+    val heatindexAvg: Double?
 )

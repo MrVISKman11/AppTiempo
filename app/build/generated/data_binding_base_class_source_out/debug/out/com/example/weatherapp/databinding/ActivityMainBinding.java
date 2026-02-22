@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.example.weatherapp.R;
@@ -35,7 +37,16 @@ public final class ActivityMainBinding implements ViewBinding {
   public final BarChart chartPrecip;
 
   @NonNull
+  public final LineChart chartPressure;
+
+  @NonNull
+  public final LineChart chartSolar;
+
+  @NonNull
   public final LineChart chartTemperature;
+
+  @NonNull
+  public final LineChart chartUV;
 
   @NonNull
   public final LineChart chartWind;
@@ -50,16 +61,34 @@ public final class ActivityMainBinding implements ViewBinding {
   public final TextView headerForecast;
 
   @NonNull
+  public final TextView headerGraphs24h;
+
+  @NonNull
   public final TextView headerPrecip;
+
+  @NonNull
+  public final TextView headerPressure;
+
+  @NonNull
+  public final TextView headerSolar;
 
   @NonNull
   public final TextView headerTemp;
 
   @NonNull
+  public final TextView headerUV;
+
+  @NonNull
   public final TextView headerWind;
 
   @NonNull
+  public final LinearLayout llGraphsContent;
+
+  @NonNull
   public final NavigationView navView;
+
+  @NonNull
+  public final RecyclerView rvForecast;
 
   @NonNull
   public final TextView tvCurrentConditions;
@@ -67,33 +96,42 @@ public final class ActivityMainBinding implements ViewBinding {
   @NonNull
   public final TextView tvLocation;
 
-  @NonNull
-  public final TextView tvWeather;
-
   private ActivityMainBinding(@NonNull DrawerLayout rootView,
       @NonNull ImageButton btnAddToFavorites, @NonNull Button btnConsult,
-      @NonNull BarChart chartPrecip, @NonNull LineChart chartTemperature,
-      @NonNull LineChart chartWind, @NonNull DrawerLayout drawerLayout,
+      @NonNull BarChart chartPrecip, @NonNull LineChart chartPressure,
+      @NonNull LineChart chartSolar, @NonNull LineChart chartTemperature,
+      @NonNull LineChart chartUV, @NonNull LineChart chartWind, @NonNull DrawerLayout drawerLayout,
       @NonNull EditText etStationId, @NonNull TextView headerForecast,
-      @NonNull TextView headerPrecip, @NonNull TextView headerTemp, @NonNull TextView headerWind,
-      @NonNull NavigationView navView, @NonNull TextView tvCurrentConditions,
-      @NonNull TextView tvLocation, @NonNull TextView tvWeather) {
+      @NonNull TextView headerGraphs24h, @NonNull TextView headerPrecip,
+      @NonNull TextView headerPressure, @NonNull TextView headerSolar, @NonNull TextView headerTemp,
+      @NonNull TextView headerUV, @NonNull TextView headerWind,
+      @NonNull LinearLayout llGraphsContent, @NonNull NavigationView navView,
+      @NonNull RecyclerView rvForecast, @NonNull TextView tvCurrentConditions,
+      @NonNull TextView tvLocation) {
     this.rootView = rootView;
     this.btnAddToFavorites = btnAddToFavorites;
     this.btnConsult = btnConsult;
     this.chartPrecip = chartPrecip;
+    this.chartPressure = chartPressure;
+    this.chartSolar = chartSolar;
     this.chartTemperature = chartTemperature;
+    this.chartUV = chartUV;
     this.chartWind = chartWind;
     this.drawerLayout = drawerLayout;
     this.etStationId = etStationId;
     this.headerForecast = headerForecast;
+    this.headerGraphs24h = headerGraphs24h;
     this.headerPrecip = headerPrecip;
+    this.headerPressure = headerPressure;
+    this.headerSolar = headerSolar;
     this.headerTemp = headerTemp;
+    this.headerUV = headerUV;
     this.headerWind = headerWind;
+    this.llGraphsContent = llGraphsContent;
     this.navView = navView;
+    this.rvForecast = rvForecast;
     this.tvCurrentConditions = tvCurrentConditions;
     this.tvLocation = tvLocation;
-    this.tvWeather = tvWeather;
   }
 
   @Override
@@ -141,9 +179,27 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.chartPressure;
+      LineChart chartPressure = ViewBindings.findChildViewById(rootView, id);
+      if (chartPressure == null) {
+        break missingId;
+      }
+
+      id = R.id.chartSolar;
+      LineChart chartSolar = ViewBindings.findChildViewById(rootView, id);
+      if (chartSolar == null) {
+        break missingId;
+      }
+
       id = R.id.chartTemperature;
       LineChart chartTemperature = ViewBindings.findChildViewById(rootView, id);
       if (chartTemperature == null) {
+        break missingId;
+      }
+
+      id = R.id.chartUV;
+      LineChart chartUV = ViewBindings.findChildViewById(rootView, id);
+      if (chartUV == null) {
         break missingId;
       }
 
@@ -167,9 +223,27 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.headerGraphs24h;
+      TextView headerGraphs24h = ViewBindings.findChildViewById(rootView, id);
+      if (headerGraphs24h == null) {
+        break missingId;
+      }
+
       id = R.id.headerPrecip;
       TextView headerPrecip = ViewBindings.findChildViewById(rootView, id);
       if (headerPrecip == null) {
+        break missingId;
+      }
+
+      id = R.id.headerPressure;
+      TextView headerPressure = ViewBindings.findChildViewById(rootView, id);
+      if (headerPressure == null) {
+        break missingId;
+      }
+
+      id = R.id.headerSolar;
+      TextView headerSolar = ViewBindings.findChildViewById(rootView, id);
+      if (headerSolar == null) {
         break missingId;
       }
 
@@ -179,15 +253,33 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.headerUV;
+      TextView headerUV = ViewBindings.findChildViewById(rootView, id);
+      if (headerUV == null) {
+        break missingId;
+      }
+
       id = R.id.headerWind;
       TextView headerWind = ViewBindings.findChildViewById(rootView, id);
       if (headerWind == null) {
         break missingId;
       }
 
+      id = R.id.llGraphsContent;
+      LinearLayout llGraphsContent = ViewBindings.findChildViewById(rootView, id);
+      if (llGraphsContent == null) {
+        break missingId;
+      }
+
       id = R.id.nav_view;
       NavigationView navView = ViewBindings.findChildViewById(rootView, id);
       if (navView == null) {
+        break missingId;
+      }
+
+      id = R.id.rvForecast;
+      RecyclerView rvForecast = ViewBindings.findChildViewById(rootView, id);
+      if (rvForecast == null) {
         break missingId;
       }
 
@@ -203,16 +295,11 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tvWeather;
-      TextView tvWeather = ViewBindings.findChildViewById(rootView, id);
-      if (tvWeather == null) {
-        break missingId;
-      }
-
       return new ActivityMainBinding((DrawerLayout) rootView, btnAddToFavorites, btnConsult,
-          chartPrecip, chartTemperature, chartWind, drawerLayout, etStationId, headerForecast,
-          headerPrecip, headerTemp, headerWind, navView, tvCurrentConditions, tvLocation,
-          tvWeather);
+          chartPrecip, chartPressure, chartSolar, chartTemperature, chartUV, chartWind,
+          drawerLayout, etStationId, headerForecast, headerGraphs24h, headerPrecip, headerPressure,
+          headerSolar, headerTemp, headerUV, headerWind, llGraphsContent, navView, rvForecast,
+          tvCurrentConditions, tvLocation);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

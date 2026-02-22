@@ -4,9 +4,12 @@ package com.example.weatherapp.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -18,13 +21,82 @@ import java.lang.String;
 
 public final class ActivitySettingsBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final ScrollView rootView;
 
   @NonNull
-  public final RadioButton rbSettingsImperial;
+  public final TextView btnColorFeels;
 
   @NonNull
-  public final RadioButton rbSettingsMetric;
+  public final TextView btnColorPrecip;
+
+  @NonNull
+  public final TextView btnColorPressure;
+
+  @NonNull
+  public final TextView btnColorSolar;
+
+  @NonNull
+  public final TextView btnColorTemp;
+
+  @NonNull
+  public final TextView btnColorUV;
+
+  @NonNull
+  public final TextView btnColorWind;
+
+  @NonNull
+  public final Button btnResetColors;
+
+  @NonNull
+  public final TextView headerSettingsColors;
+
+  @NonNull
+  public final TextView headerSettingsLanguage;
+
+  @NonNull
+  public final TextView headerSettingsPrecip;
+
+  @NonNull
+  public final TextView headerSettingsSpeed;
+
+  @NonNull
+  public final TextView headerSettingsTemp;
+
+  @NonNull
+  public final TextView headerSettingsTheme;
+
+  @NonNull
+  public final TextView headerSettingsUnits;
+
+  @NonNull
+  public final LinearLayout llSettingsColors;
+
+  @NonNull
+  public final LinearLayout llSettingsUnits;
+
+  @NonNull
+  public final RadioButton rbLangEnglish;
+
+  @NonNull
+  public final RadioButton rbLangSpanish;
+
+  @NonNull
+  public final RadioButton rbPrecipIn;
+
+  @NonNull
+  public final RadioButton rbPrecipMm;
+
+  @NonNull
+  public final RadioButton rbSpeedKmh;
+
+  @NonNull
+  public final RadioButton rbSpeedMph;
+
+  @NonNull
+  public final RadioButton rbTempC;
+
+  @NonNull
+  public final RadioButton rbTempF;
 
   @NonNull
   public final RadioButton rbThemeDark;
@@ -36,29 +108,75 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final RadioButton rbThemeSystem;
 
   @NonNull
-  public final RadioGroup rgSettingsTheme;
+  public final RadioGroup rgSettingsLanguage;
 
   @NonNull
-  public final RadioGroup rgSettingsUnits;
+  public final RadioGroup rgSettingsPrecip;
 
-  private ActivitySettingsBinding(@NonNull LinearLayout rootView,
-      @NonNull RadioButton rbSettingsImperial, @NonNull RadioButton rbSettingsMetric,
+  @NonNull
+  public final RadioGroup rgSettingsSpeed;
+
+  @NonNull
+  public final RadioGroup rgSettingsTemp;
+
+  @NonNull
+  public final RadioGroup rgSettingsTheme;
+
+  private ActivitySettingsBinding(@NonNull ScrollView rootView, @NonNull TextView btnColorFeels,
+      @NonNull TextView btnColorPrecip, @NonNull TextView btnColorPressure,
+      @NonNull TextView btnColorSolar, @NonNull TextView btnColorTemp, @NonNull TextView btnColorUV,
+      @NonNull TextView btnColorWind, @NonNull Button btnResetColors,
+      @NonNull TextView headerSettingsColors, @NonNull TextView headerSettingsLanguage,
+      @NonNull TextView headerSettingsPrecip, @NonNull TextView headerSettingsSpeed,
+      @NonNull TextView headerSettingsTemp, @NonNull TextView headerSettingsTheme,
+      @NonNull TextView headerSettingsUnits, @NonNull LinearLayout llSettingsColors,
+      @NonNull LinearLayout llSettingsUnits, @NonNull RadioButton rbLangEnglish,
+      @NonNull RadioButton rbLangSpanish, @NonNull RadioButton rbPrecipIn,
+      @NonNull RadioButton rbPrecipMm, @NonNull RadioButton rbSpeedKmh,
+      @NonNull RadioButton rbSpeedMph, @NonNull RadioButton rbTempC, @NonNull RadioButton rbTempF,
       @NonNull RadioButton rbThemeDark, @NonNull RadioButton rbThemeLight,
-      @NonNull RadioButton rbThemeSystem, @NonNull RadioGroup rgSettingsTheme,
-      @NonNull RadioGroup rgSettingsUnits) {
+      @NonNull RadioButton rbThemeSystem, @NonNull RadioGroup rgSettingsLanguage,
+      @NonNull RadioGroup rgSettingsPrecip, @NonNull RadioGroup rgSettingsSpeed,
+      @NonNull RadioGroup rgSettingsTemp, @NonNull RadioGroup rgSettingsTheme) {
     this.rootView = rootView;
-    this.rbSettingsImperial = rbSettingsImperial;
-    this.rbSettingsMetric = rbSettingsMetric;
+    this.btnColorFeels = btnColorFeels;
+    this.btnColorPrecip = btnColorPrecip;
+    this.btnColorPressure = btnColorPressure;
+    this.btnColorSolar = btnColorSolar;
+    this.btnColorTemp = btnColorTemp;
+    this.btnColorUV = btnColorUV;
+    this.btnColorWind = btnColorWind;
+    this.btnResetColors = btnResetColors;
+    this.headerSettingsColors = headerSettingsColors;
+    this.headerSettingsLanguage = headerSettingsLanguage;
+    this.headerSettingsPrecip = headerSettingsPrecip;
+    this.headerSettingsSpeed = headerSettingsSpeed;
+    this.headerSettingsTemp = headerSettingsTemp;
+    this.headerSettingsTheme = headerSettingsTheme;
+    this.headerSettingsUnits = headerSettingsUnits;
+    this.llSettingsColors = llSettingsColors;
+    this.llSettingsUnits = llSettingsUnits;
+    this.rbLangEnglish = rbLangEnglish;
+    this.rbLangSpanish = rbLangSpanish;
+    this.rbPrecipIn = rbPrecipIn;
+    this.rbPrecipMm = rbPrecipMm;
+    this.rbSpeedKmh = rbSpeedKmh;
+    this.rbSpeedMph = rbSpeedMph;
+    this.rbTempC = rbTempC;
+    this.rbTempF = rbTempF;
     this.rbThemeDark = rbThemeDark;
     this.rbThemeLight = rbThemeLight;
     this.rbThemeSystem = rbThemeSystem;
+    this.rgSettingsLanguage = rgSettingsLanguage;
+    this.rgSettingsPrecip = rgSettingsPrecip;
+    this.rgSettingsSpeed = rgSettingsSpeed;
+    this.rgSettingsTemp = rgSettingsTemp;
     this.rgSettingsTheme = rgSettingsTheme;
-    this.rgSettingsUnits = rgSettingsUnits;
   }
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public ScrollView getRoot() {
     return rootView;
   }
 
@@ -83,15 +201,153 @@ public final class ActivitySettingsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.rbSettingsImperial;
-      RadioButton rbSettingsImperial = ViewBindings.findChildViewById(rootView, id);
-      if (rbSettingsImperial == null) {
+      id = R.id.btnColorFeels;
+      TextView btnColorFeels = ViewBindings.findChildViewById(rootView, id);
+      if (btnColorFeels == null) {
         break missingId;
       }
 
-      id = R.id.rbSettingsMetric;
-      RadioButton rbSettingsMetric = ViewBindings.findChildViewById(rootView, id);
-      if (rbSettingsMetric == null) {
+      id = R.id.btnColorPrecip;
+      TextView btnColorPrecip = ViewBindings.findChildViewById(rootView, id);
+      if (btnColorPrecip == null) {
+        break missingId;
+      }
+
+      id = R.id.btnColorPressure;
+      TextView btnColorPressure = ViewBindings.findChildViewById(rootView, id);
+      if (btnColorPressure == null) {
+        break missingId;
+      }
+
+      id = R.id.btnColorSolar;
+      TextView btnColorSolar = ViewBindings.findChildViewById(rootView, id);
+      if (btnColorSolar == null) {
+        break missingId;
+      }
+
+      id = R.id.btnColorTemp;
+      TextView btnColorTemp = ViewBindings.findChildViewById(rootView, id);
+      if (btnColorTemp == null) {
+        break missingId;
+      }
+
+      id = R.id.btnColorUV;
+      TextView btnColorUV = ViewBindings.findChildViewById(rootView, id);
+      if (btnColorUV == null) {
+        break missingId;
+      }
+
+      id = R.id.btnColorWind;
+      TextView btnColorWind = ViewBindings.findChildViewById(rootView, id);
+      if (btnColorWind == null) {
+        break missingId;
+      }
+
+      id = R.id.btnResetColors;
+      Button btnResetColors = ViewBindings.findChildViewById(rootView, id);
+      if (btnResetColors == null) {
+        break missingId;
+      }
+
+      id = R.id.headerSettingsColors;
+      TextView headerSettingsColors = ViewBindings.findChildViewById(rootView, id);
+      if (headerSettingsColors == null) {
+        break missingId;
+      }
+
+      id = R.id.headerSettingsLanguage;
+      TextView headerSettingsLanguage = ViewBindings.findChildViewById(rootView, id);
+      if (headerSettingsLanguage == null) {
+        break missingId;
+      }
+
+      id = R.id.headerSettingsPrecip;
+      TextView headerSettingsPrecip = ViewBindings.findChildViewById(rootView, id);
+      if (headerSettingsPrecip == null) {
+        break missingId;
+      }
+
+      id = R.id.headerSettingsSpeed;
+      TextView headerSettingsSpeed = ViewBindings.findChildViewById(rootView, id);
+      if (headerSettingsSpeed == null) {
+        break missingId;
+      }
+
+      id = R.id.headerSettingsTemp;
+      TextView headerSettingsTemp = ViewBindings.findChildViewById(rootView, id);
+      if (headerSettingsTemp == null) {
+        break missingId;
+      }
+
+      id = R.id.headerSettingsTheme;
+      TextView headerSettingsTheme = ViewBindings.findChildViewById(rootView, id);
+      if (headerSettingsTheme == null) {
+        break missingId;
+      }
+
+      id = R.id.headerSettingsUnits;
+      TextView headerSettingsUnits = ViewBindings.findChildViewById(rootView, id);
+      if (headerSettingsUnits == null) {
+        break missingId;
+      }
+
+      id = R.id.llSettingsColors;
+      LinearLayout llSettingsColors = ViewBindings.findChildViewById(rootView, id);
+      if (llSettingsColors == null) {
+        break missingId;
+      }
+
+      id = R.id.llSettingsUnits;
+      LinearLayout llSettingsUnits = ViewBindings.findChildViewById(rootView, id);
+      if (llSettingsUnits == null) {
+        break missingId;
+      }
+
+      id = R.id.rbLangEnglish;
+      RadioButton rbLangEnglish = ViewBindings.findChildViewById(rootView, id);
+      if (rbLangEnglish == null) {
+        break missingId;
+      }
+
+      id = R.id.rbLangSpanish;
+      RadioButton rbLangSpanish = ViewBindings.findChildViewById(rootView, id);
+      if (rbLangSpanish == null) {
+        break missingId;
+      }
+
+      id = R.id.rbPrecipIn;
+      RadioButton rbPrecipIn = ViewBindings.findChildViewById(rootView, id);
+      if (rbPrecipIn == null) {
+        break missingId;
+      }
+
+      id = R.id.rbPrecipMm;
+      RadioButton rbPrecipMm = ViewBindings.findChildViewById(rootView, id);
+      if (rbPrecipMm == null) {
+        break missingId;
+      }
+
+      id = R.id.rbSpeedKmh;
+      RadioButton rbSpeedKmh = ViewBindings.findChildViewById(rootView, id);
+      if (rbSpeedKmh == null) {
+        break missingId;
+      }
+
+      id = R.id.rbSpeedMph;
+      RadioButton rbSpeedMph = ViewBindings.findChildViewById(rootView, id);
+      if (rbSpeedMph == null) {
+        break missingId;
+      }
+
+      id = R.id.rbTempC;
+      RadioButton rbTempC = ViewBindings.findChildViewById(rootView, id);
+      if (rbTempC == null) {
+        break missingId;
+      }
+
+      id = R.id.rbTempF;
+      RadioButton rbTempF = ViewBindings.findChildViewById(rootView, id);
+      if (rbTempF == null) {
         break missingId;
       }
 
@@ -113,21 +369,43 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.rgSettingsLanguage;
+      RadioGroup rgSettingsLanguage = ViewBindings.findChildViewById(rootView, id);
+      if (rgSettingsLanguage == null) {
+        break missingId;
+      }
+
+      id = R.id.rgSettingsPrecip;
+      RadioGroup rgSettingsPrecip = ViewBindings.findChildViewById(rootView, id);
+      if (rgSettingsPrecip == null) {
+        break missingId;
+      }
+
+      id = R.id.rgSettingsSpeed;
+      RadioGroup rgSettingsSpeed = ViewBindings.findChildViewById(rootView, id);
+      if (rgSettingsSpeed == null) {
+        break missingId;
+      }
+
+      id = R.id.rgSettingsTemp;
+      RadioGroup rgSettingsTemp = ViewBindings.findChildViewById(rootView, id);
+      if (rgSettingsTemp == null) {
+        break missingId;
+      }
+
       id = R.id.rgSettingsTheme;
       RadioGroup rgSettingsTheme = ViewBindings.findChildViewById(rootView, id);
       if (rgSettingsTheme == null) {
         break missingId;
       }
 
-      id = R.id.rgSettingsUnits;
-      RadioGroup rgSettingsUnits = ViewBindings.findChildViewById(rootView, id);
-      if (rgSettingsUnits == null) {
-        break missingId;
-      }
-
-      return new ActivitySettingsBinding((LinearLayout) rootView, rbSettingsImperial,
-          rbSettingsMetric, rbThemeDark, rbThemeLight, rbThemeSystem, rgSettingsTheme,
-          rgSettingsUnits);
+      return new ActivitySettingsBinding((ScrollView) rootView, btnColorFeels, btnColorPrecip,
+          btnColorPressure, btnColorSolar, btnColorTemp, btnColorUV, btnColorWind, btnResetColors,
+          headerSettingsColors, headerSettingsLanguage, headerSettingsPrecip, headerSettingsSpeed,
+          headerSettingsTemp, headerSettingsTheme, headerSettingsUnits, llSettingsColors,
+          llSettingsUnits, rbLangEnglish, rbLangSpanish, rbPrecipIn, rbPrecipMm, rbSpeedKmh,
+          rbSpeedMph, rbTempC, rbTempF, rbThemeDark, rbThemeLight, rbThemeSystem,
+          rgSettingsLanguage, rgSettingsPrecip, rgSettingsSpeed, rgSettingsTemp, rgSettingsTheme);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

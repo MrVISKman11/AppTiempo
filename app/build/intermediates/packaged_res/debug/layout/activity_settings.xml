@@ -1,47 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pref_category_units"
-        android:textAppearance="?attr/textAppearanceHeadline6"
-        android:layout_marginBottom="8dp" />
-
-    <RadioGroup
-        android:id="@+id/rgSettingsUnits"
+        android:id="@+id/headerSettingsLanguage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp">
+        android:text="@string/pref_category_language"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:layout_marginBottom="8dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+
+    <RadioGroup
+        android:id="@+id/rgSettingsLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone">
 
         <RadioButton
-            android:id="@+id/rbSettingsMetric"
+            android:id="@+id/rbLangSpanish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/celsius" />
+            android:text="@string/lang_spanish" />
 
         <RadioButton
-            android:id="@+id/rbSettingsImperial"
+            android:id="@+id/rbLangEnglish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fahrenheit" />
+            android:text="@string/lang_english" />
     </RadioGroup>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/headerSettingsUnits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pref_category_units"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:layout_marginBottom="8dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+
+    <LinearLayout
+        android:id="@+id/llSettingsUnits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone">
+
+        <!-- Temperature -->
+        <TextView
+            android:id="@+id/headerSettingsTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_unit_temp"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+
+        <RadioGroup
+            android:id="@+id/rgSettingsTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/rbTempC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/celsius" />
+
+            <RadioButton
+                android:id="@+id/rbTempF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fahrenheit" />
+        </RadioGroup>
+
+        <!-- Speed -->
+        <TextView
+            android:id="@+id/headerSettingsSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_unit_speed"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+
+        <RadioGroup
+            android:id="@+id/rgSettingsSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/rbSpeedKmh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed_kmh" />
+
+            <RadioButton
+                android:id="@+id/rbSpeedMph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed_mph" />
+        </RadioGroup>
+
+        <!-- Precipitation -->
+        <TextView
+            android:id="@+id/headerSettingsPrecip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_unit_precip"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+
+        <RadioGroup
+            android:id="@+id/rgSettingsPrecip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/rbPrecipMm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/precip_mm" />
+
+            <RadioButton
+                android:id="@+id/rbPrecipIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/precip_in" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/headerSettingsTheme"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pref_category_theme"
         android:textAppearance="?attr/textAppearanceHeadline6"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
 
     <RadioGroup
         android:id="@+id/rgSettingsTheme"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <RadioButton
             android:id="@+id/rbThemeSystem"
@@ -62,4 +202,105 @@
             android:text="@string/theme_dark" />
     </RadioGroup>
 
+            <TextView
+                android:id="@+id/headerSettingsColors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_colors_title"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:layout_marginBottom="8dp"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
+
+            <!-- Wrapped this in a LinearLayout so we can toggle it -->
+            <LinearLayout
+                android:id="@+id/llSettingsColors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/btnColorTemp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graph_temp"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/btnColorFeels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graph_feels_like_full"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/btnColorWind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graph_wind"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/btnColorPrecip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graph_precip"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/btnColorSolar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graph_solar"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/btnColorUV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graph_uv"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/btnColorPressure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graph_pressure"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <Button
+                android:id="@+id/btnResetColors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_reset_colors"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"/>
+            </LinearLayout>
+
 </LinearLayout>
+</ScrollView>

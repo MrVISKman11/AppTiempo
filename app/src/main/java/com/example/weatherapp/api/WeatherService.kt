@@ -22,6 +22,7 @@ interface WeatherService {
         @Query("stationId") stationId: String,
         @Query("format") format: String = "json",
         @Query("units") units: String, // e = imperial, m = metric
+        @Query("numericPrecision") numericPrecision: String = "decimal",
         @Query("apiKey") apiKey: String
     ): Response<PwsHistoryResponse>
 

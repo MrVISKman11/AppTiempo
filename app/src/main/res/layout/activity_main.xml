@@ -86,14 +86,14 @@
                 android:focusable="true"
                 app:drawableEndCompat="@drawable/ic_arrow_drop_down" />
 
-            <TextView
-                android:id="@+id/tvWeather"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvForecast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/loading"
-                android:textAppearance="?attr/textAppearanceBody1"
                 android:layout_marginBottom="16dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_forecast_day" />
 
 
 
@@ -104,7 +104,7 @@
                 android:id="@+id/headerGraphs24h"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gráficos 24h"
+                android:text="@string/graphs_24h"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:layout_marginBottom="8dp"
                 android:background="?attr/selectableItemBackground"
@@ -125,7 +125,7 @@
                     android:id="@+id/headerTemp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Temperatura"
+                    android:text="@string/graph_temp"
                     android:textAppearance="?attr/textAppearanceSubtitle2"
                     android:layout_marginBottom="4dp"
                     android:background="?attr/selectableItemBackground"
@@ -147,7 +147,7 @@
                     android:id="@+id/headerWind"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Viento"
+                    android:text="@string/graph_wind"
                     android:textAppearance="?attr/textAppearanceSubtitle2"
                     android:layout_marginBottom="4dp"
                     android:background="?attr/selectableItemBackground"
@@ -169,7 +169,7 @@
                     android:id="@+id/headerPrecip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Precipitación"
+                    android:text="@string/graph_precip"
                     android:textAppearance="?attr/textAppearanceSubtitle2"
                     android:layout_marginBottom="4dp"
                     android:background="?attr/selectableItemBackground"
@@ -191,7 +191,7 @@
                     android:id="@+id/headerSolar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Radiación Solar"
+                    android:text="@string/graph_solar"
                     android:textAppearance="?attr/textAppearanceSubtitle2"
                     android:layout_marginBottom="4dp"
                     android:background="?attr/selectableItemBackground"
@@ -213,7 +213,7 @@
                     android:id="@+id/headerUV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Índice UV"
+                    android:text="@string/graph_uv"
                     android:textAppearance="?attr/textAppearanceSubtitle2"
                     android:layout_marginBottom="4dp"
                     android:background="?attr/selectableItemBackground"
@@ -235,7 +235,7 @@
                     android:id="@+id/headerPressure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Presión"
+                    android:text="@string/graph_pressure"
                     android:textAppearance="?attr/textAppearanceSubtitle2"
                     android:layout_marginBottom="4dp"
                     android:background="?attr/selectableItemBackground"
