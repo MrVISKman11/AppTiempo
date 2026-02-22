@@ -1,4 +1,0 @@
-com.example.weatherapp.test.app-androidTest-0 C:\Users\Miguel\Documents\AppTiempo\app\build\generated\res\resValues\androidTest\debug
-com.example.weatherapp.test.app-mergeDebugAndroidTestResources-1 C:\Users\Miguel\Documents\AppTiempo\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
-com.example.weatherapp.test.app-mergeDebugAndroidTestResources-2 C:\Users\Miguel\Documents\AppTiempo\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
-com.example.weatherapp.test.app-merged_res-3 C:\Users\Miguel\Documents\AppTiempo\app\build\intermediates\merged_res\debugAndroidTest
