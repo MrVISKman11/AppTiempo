@@ -212,7 +212,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (forecast.isNotEmpty()) {
                 val sharedPref = getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE)
                 val tempUnit = sharedPref.getString("pref_temp_unit", "C") ?: "C"
-                forecastAdapter.setForecasts(forecast, tempUnit)
+                val precipUnit = sharedPref.getString("pref_precip_unit", "mm") ?: "mm"
+                forecastAdapter.setForecasts(forecast, tempUnit, precipUnit)
                 // We keep rvForecast visibility logic to the toggle header
             } else {
                 rvForecast.visibility = android.view.View.GONE
@@ -540,7 +541,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val colorUV = sharedPrefColors.getInt("pref_color_uv", Color.MAGENTA)
             val colorPressure = sharedPrefColors.getInt("pref_color_pressure", Color.CYAN)
 
-            val decimalFormat = DecimalFormat("#.0")
+            val decimalFormat = DecimalFormat("0.0")
             val defaultFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String = decimalFormat.format(value)
             }
@@ -581,11 +582,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             chartWind.invalidate()
             chartWind.animateX(1000)
 
-            // Precip Chart
-            val precipDataSet = BarDataSet(precipEntries, "${getString(R.string.graph_precip)} (${if (precipUnitPref == "mm") "mm" else "in"})")
+            // Precip Chart (Accumulated)
+            val precipUnitLabel = if (precipUnitPref == "mm") "mm" else "in"
+            val precipDataSet = BarDataSet(precipEntries, "${getString(R.string.graph_precip)} ($precipUnitLabel)")
             precipDataSet.color = colorPrecip
             precipDataSet.valueTextColor = textColor
             precipDataSet.valueFormatter = defaultFormatter
+            precipDataSet.setDrawValues(false)
             chartPrecip.axisLeft.valueFormatter = defaultFormatter
             chartPrecip.data = BarData(precipDataSet)
             chartPrecip.xAxis.valueFormatter = IndexAxisValueFormatter(labels)

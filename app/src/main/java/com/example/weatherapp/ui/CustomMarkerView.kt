@@ -12,7 +12,7 @@ import java.text.DecimalFormat
 class CustomMarkerView(context: Context, layoutResource: Int) : MarkerView(context, layoutResource) {
 
     private val tvContent: TextView = findViewById(R.id.tvContent)
-    private val format = DecimalFormat("###.0")
+    private val format = DecimalFormat("0.0")
 
     override fun refreshContent(e: Entry?, highlight: Highlight?) {
         if (e != null) {

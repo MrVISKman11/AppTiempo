@@ -1,22 +1,26 @@
 package com.example.weatherapp.model
 
+import com.google.gson.annotations.SerializedName
+
 data class PwsHistoryResponse(
-    val observations: List<PwsHistoryObservation>?
+    @SerializedName("observations") val observations: List<PwsHistoryObservation>?
 )
 
 data class PwsHistoryObservation(
-    val epoch: Long,
-    val metric: PwsHistoryUnits?, // For Celsius
-    val imperial: PwsHistoryUnits?, // For Fahrenheit
-    val solarRadiationHigh: Double?,
-    val uvHigh: Double?
+    @SerializedName("epoch") val epoch: Long,
+    @SerializedName("metric") val metric: PwsHistoryUnits?, // For Celsius
+    @SerializedName("imperial") val imperial: PwsHistoryUnits?, // For Fahrenheit
+    @SerializedName("solarRadiationHigh") val solarRadiationHigh: Double?,
+    @SerializedName("uvHigh") val uvHigh: Double?
 )
 
 data class PwsHistoryUnits(
-    val tempAvg: Double?,
-    val windspeedAvg: Double?,
-    val precipTotal: Double?,
-    val pressureMax: Double?,
-    val windchillAvg: Double?,
-    val heatindexAvg: Double?
+    @SerializedName("tempAvg") val tempAvg: Double?,
+    @SerializedName("windspeedAvg") val windspeedAvg: Double?,
+    @SerializedName("precipRate") val precipRate: Double?,
+    @SerializedName("precipTotal") val precipTotal: Double?,
+    @SerializedName("pressureMax") val pressureMax: Double?,
+    @SerializedName("windchillAvg") val windchillAvg: Double?,
+    @SerializedName("heatindexAvg") val heatindexAvg: Double?
 )
+

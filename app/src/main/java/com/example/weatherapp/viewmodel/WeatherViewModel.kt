@@ -87,7 +87,8 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                     val data = observation.metric
                     val tempUnit = if (tempPref == "C") "°C" else "°F"
                     val speedUnit = if (speedPref == "kmh") "km/h" else "mph"
-                    val precipUnitStr = if (precipPref == "mm") "mm/hr" else "in"
+                    val precipRateUnit = if (precipPref == "mm") "mm/h" else "in/h"
+                    val precipTotalUnit = if (precipPref == "mm") "mm" else "in"
                     
                     if (data != null) {
                         val windDir = getWindDirection(observation.winddir)
@@ -118,8 +119,10 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                         }
 
                         // Precip Logic
+                        var precipRate = data.precipRate ?: 0.0
                         var precipTotal = data.precipTotal ?: 0.0
                         if (precipPref == "in") {
+                            precipRate /= 25.4
                             precipTotal /= 25.4
                         }
 
@@ -127,12 +130,13 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                         val feelsLikeFormatted = String.format(Locale.getDefault(), "%.1f", feelsLike)
                         val windSpeedFormatted = String.format(Locale.getDefault(), "%.2f", windSpeed)
                         val windGustFormatted = String.format(Locale.getDefault(), "%.2f", windGust)
-                        val precipFormatted = String.format(Locale.getDefault(), "%.2f", precipTotal)
+                        val precipRateFormatted = String.format(Locale.getDefault(), "%.2f", precipRate)
+                        val precipTotalFormatted = String.format(Locale.getDefault(), "%.2f", precipTotal)
 
                         val conditionText = "Temp: ${tempFormatted}$tempUnit\n" +
                                             "${getAppString(R.string.graph_feels_like)}: ${feelsLikeFormatted}$tempUnit\n" +
                                             "${getAppString(R.string.graph_wind)}: ${windSpeedFormatted} $speedUnit $windDir (${getAppString(R.string.label_gust)}: ${windGustFormatted} $speedUnit)\n" +
-                                            "${getAppString(R.string.graph_precip)}: ${precipFormatted} $precipUnitStr"
+                                            "${getAppString(R.string.graph_precip)}: ${precipRateFormatted} $precipRateUnit (${getAppString(R.string.label_rain)}: ${precipTotalFormatted} $precipTotalUnit)"
                         _currentConditions.postValue(conditionText)
                     }
 
@@ -179,13 +183,14 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                                 _chartHistory.postValue(history!!)
                                 
                                 // Calculate 24h Precip Total (Base Metric)
-                                var precipSum = history.sumOf { 
+                                // In Weather Underground, precipTotal is cumulative for the day.
+                                val maxPrecipMetric = history.maxOfOrNull { 
                                     it.metric?.precipTotal ?: 0.0 
-                                }
-                                val precipUnitCur = if (precipPref == "mm") "mm/hr" else "in"
+                                } ?: (data?.precipTotal ?: 0.0)
+                                var precip24 = maxPrecipMetric
                                 
                                 if (precipPref == "in") {
-                                    precipSum /= 25.4
+                                    precip24 /= 25.4
                                 }
 
                                 val currentBase = if (data != null) {
@@ -214,8 +219,10 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                                         windGust /= 1.60934
                                     }
 
+                                    var precipRate = data.precipRate ?: 0.0
                                     var precipTotal = data.precipTotal ?: 0.0
                                     if (precipPref == "in") {
+                                        precipRate /= 25.4
                                         precipTotal /= 25.4
                                     }
 
@@ -223,18 +230,19 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                                     val feelsLikeFormatted = String.format(Locale.getDefault(), "%.1f", feelsLike)
                                     val windSpeedFormatted = String.format(Locale.getDefault(), "%.2f", windSpeed)
                                     val windGustFormatted = String.format(Locale.getDefault(), "%.2f", windGust)
-                                    val precipFormatted = String.format(Locale.getDefault(), "%.2f", precipTotal)
+                                    val precipRateFormatted = String.format(Locale.getDefault(), "%.2f", precipRate)
+                                    val precipTotalFormatted = String.format(Locale.getDefault(), "%.2f", precipTotal)
 
                                     "Temp: ${tempFormatted}$tempUnit\n" +
                                     "${getAppString(R.string.graph_feels_like)}: ${feelsLikeFormatted}$tempUnit\n" +
                                     "${getAppString(R.string.graph_wind)}: ${windSpeedFormatted} $speedUnit $windDir (${getAppString(R.string.label_gust)}: ${windGustFormatted} $speedUnit)\n" +
-                                    "${getAppString(R.string.graph_precip)}: ${precipFormatted} $precipUnitCur"
+                                    "${getAppString(R.string.graph_precip)}: ${precipRateFormatted} $precipRateUnit (${getAppString(R.string.label_rain)}: ${precipTotalFormatted} $precipTotalUnit)"
                                 } else ""
 
                                 val humidityVal = observation.humidity ?: 0.0
                                 val humidityStr = String.format(Locale.getDefault(), "%.1f", humidityVal)
                                 val precip24Unit = if (precipPref == "mm") "mm" else "in"
-                                val fullConditionText = "$currentBase\n${getAppString(R.string.graph_precip)} (24h): ${String.format(Locale.getDefault(), "%.2f", precipSum)} $precip24Unit\n${getAppString(R.string.label_humidity)}: $humidityStr%"
+                                val fullConditionText = "$currentBase\n${getAppString(R.string.graph_precip)} (24h): ${String.format(Locale.getDefault(), "%.2f", precip24)} $precip24Unit\n${getAppString(R.string.label_humidity)}: $humidityStr%"
                                 _currentConditions.postValue(fullConditionText)
                             } else {
                                 _chartHistory.postValue(emptyList())

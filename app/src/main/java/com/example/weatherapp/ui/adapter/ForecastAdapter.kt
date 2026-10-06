@@ -15,9 +15,11 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ForecastViewHolder>
 
     private val forecastList = mutableListOf<DailyForecast>()
     private var tempUnitPref = "C"
+    private var precipUnitPref = "mm"
 
-    fun setForecasts(forecasts: List<DailyForecast>, tempUnitPref: String) {
+    fun setForecasts(forecasts: List<DailyForecast>, tempUnitPref: String, precipUnitPref: String = "mm") {
         this.tempUnitPref = tempUnitPref
+        this.precipUnitPref = precipUnitPref
         forecastList.clear()
         forecastList.addAll(forecasts)
         notifyDataSetChanged()
@@ -30,7 +32,7 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ForecastViewHolder>
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         val forecast = forecastList[position]
-        holder.bind(forecast, tempUnitPref) {
+        holder.bind(forecast, tempUnitPref, precipUnitPref) {
             // Toggle expanded state
             forecast.isExpanded = !forecast.isExpanded
             notifyItemChanged(position)
@@ -52,7 +54,7 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ForecastViewHolder>
         private val tvSunrise: TextView = itemView.findViewById(R.id.tvSunrise)
         private val tvSunset: TextView = itemView.findViewById(R.id.tvSunset)
 
-        fun bind(forecast: DailyForecast, tempUnitPref: String, onHeaderClick: () -> Unit) {
+        fun bind(forecast: DailyForecast, tempUnitPref: String, precipUnitPref: String, onHeaderClick: () -> Unit) {
             tvDayOfWeek.text = forecast.dayOfWeek
             
             val tempUnit = if (tempUnitPref == "C") "°C" else "°F"
@@ -69,8 +71,13 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ForecastViewHolder>
             tvNarrative.text = forecast.narrative.replace(Regex("(?<=\\d)\\s*C\\b"), "ºC").replace(Regex("(?<=\\d)\\s*F\\b"), "ºF")
 
             val context = itemView.context
-            // We default to mm if not specified otherwise in adapter (User can't customize this explicitly in forecast view without further changes, but we'll leave as mm or standard)
-            tvRain.text = "${context.getString(R.string.label_rain)}: ${forecast.qpf ?: "0.0"} mm"
+            val rainVal = forecast.qpf ?: 0.0
+            val (rainDisplay, rainUnitStr) = if (precipUnitPref == "in") {
+                Pair(String.format(Locale.getDefault(), "%.2f", rainVal / 25.4), "in")
+            } else {
+                Pair(String.format(Locale.getDefault(), "%.1f", rainVal), "mm")
+            }
+            tvRain.text = "${context.getString(R.string.label_rain)}: $rainDisplay $rainUnitStr"
             tvMoon.text = "${context.getString(R.string.label_moon_phase)}: ${forecast.moonPhase ?: "--"}"
             
             // Format Sunrise and Sunset time slightly if it includes timezone offset e.g. "2026-02-22T07:58:55+0100"
